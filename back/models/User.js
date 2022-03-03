@@ -1,56 +1,62 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+// const database = require('./config/db_connection');
+// const sequelize = require('../config/db_connection');
+
+// database connection
+const sequelize = new Sequelize('groupomania', 'root', 'secret', {
+  host: 'localhost',
+  dialect: 'mysql'
+});
 
 const User = sequelize.define('User', {
   // Model attributes are defined here
   _id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
     allowNull: false
   },
-  firstName: {
-    type: DataTypes.CHAR(100),
+  first_name: {
+    type: Sequelize.DataTypes.STRING,
     allowNull: false
-  }
-}, {
-  lastName: {
-    type: DataTypes.CHAR(100),
+  },
+  last_name: {
+    type: Sequelize.DataTypes.STRING,
     allowNull: false
-  }
-}, {
+  },
   email: {
-    type: DataTypes.CHAR,
+    type: Sequelize.DataTypes.STRING,
     allowNull: false,
     unique: true
-  }
-}, {
+  },
   password: {
-    type: DataTypes.CHAR,
+    type: Sequelize.DataTypes.STRING,
     allowNull: false
-  }
-}, {
-  role: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: 2
-  }
-}, {
-  avatar: {
-    type: DataTypes.CHAR,
+  },
+  profile: {
+    type: Sequelize.DataTypes.STRING,
     allowNull: true
-  }
-}, {
-  // createdAt: {
-  //   allowNull: false,
-  //   type: Sequelize.DATE,
-  // },
-  // updatedAt: {
-  //   allowNull: false,
-  //   type: Sequelize.DATE,
-  // },
+  },
+  createdAt: {
+    allowNull: false,
+    type: Sequelize.DATE,
+  },
+  updatedAt: {
+    allowNull: false,
+    type: Sequelize.DATE,
+  },
   // Other model options go here
+},
+{
+  freezeTableName: true
 });
 
 // `sequelize.define` also returns the model
 console.log(User === sequelize.models.User); // true
+
+// User.sync({ force: true })
+// User.sync().then((data) => {
+//   console.log('Table and model synced successfully!');
+// }).catch((err) => {
+//   console.log('Error syncing the table and model!');
+// })

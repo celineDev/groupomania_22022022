@@ -6,9 +6,12 @@ exports.createPost = (req, res, next) => {
 
 // read : array of all the posts in the database
 exports.getAllPost = (req, res, next) => {
-  Post.findAll()
-  .then(post => res.status(200).json(post))
-  .catch(error => res.status(400).json({ error }));
+  const posts = Post.findAll();
+  console.log(posts.every(post => post instanceof Post)); // true
+  console.log("All posts:", JSON.stringify(posts, null, 2));
+  // Post.findAll()
+  // .then(post => res.status(200).json(post))
+  // .catch(error => res.status(400).json({ error }));
 };
 
 // get a post by ID

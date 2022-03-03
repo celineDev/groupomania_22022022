@@ -1,24 +1,10 @@
 const express = require('express');
-const { Sequelize } = require('sequelize');
-const mysql = require('mysql2');
 
 const app = express();
 
-const postRoutes = require('./routes/post')
 const userRoutes = require('./routes/user')
-
-// database connection
-try {
-  const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'groupomania',
-    password: 'secret'
-  });
-  console.log('Connexion à Mysql réussie !');
-} catch {
-  console.error('Connexion à MongoDB échouée !');
-}
+const postRoutes = require('./routes/post')
+const commentRoutes = require('./routes/comment')
 
 // no cors error
 app.use((req, res, next) => {
@@ -34,5 +20,6 @@ app.use(express.json());
 // routes
 app.use('/api/auth', userRoutes)
 app.use('/api/post', postRoutes)
+app.use('/api/comment', commentRoutes)
 
 module.exports = app;
