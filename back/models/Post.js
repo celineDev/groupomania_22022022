@@ -1,51 +1,39 @@
-const { Sequelize, DataTypes } = require('sequelize');
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Post extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+  Post.init({
+    id_user: DataTypes.INTEGER,
+    title: DataTypes.STRING,
+    content: DataTypes.TEXT,
+    imageUrl: DataTypes.STRING,
+    likes: DataTypes.INTEGER,
+    comment: DataTypes.TEXT
+  }, {
+    freezeTableName: true,
+    sequelize,
+    modelName: 'Post',
+  });
 
-// database connection
-const sequelize = new Sequelize('groupomania', 'root', 'secret', {
-  host: 'localhost',
-  dialect: 'mysql'
-});
+  Post.associate = function (models) {
+    Post.hasMany(models.comment),
+    Post.belongTo(models.User), {
+      foreignKey: {
+        allowNull: false
+      }
+    }
+  };
 
-const Post = sequelize.define('Post', {
-  // Model attributes are defined here
-  _id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false
-  },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false
-  },
-  imageUrl: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  likes: {
-    type: DataTypes.INTEGER,
-    allowNull: true
-  },
-  comment: {
-    type: DataTypes.TEXT,
-    allowNull: true
-  },
-  // Other model options go here
-},
-{
-  freezeTableName: true
-});
-
-// `sequelize.define` also returns the model
-console.log(Post === sequelize.models.Post); // true
-
-// User.sync({ force: true })
-// Post.sync().then((data) => {
-//   console.log('Table and model synced successfully!');
-// }).catch((err) => {
-//   console.log('Error syncing the table and model!');
-// })
+  return Post;
+};

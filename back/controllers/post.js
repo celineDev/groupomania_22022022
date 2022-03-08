@@ -1,17 +1,18 @@
 const Post = require('../models/Post');
 
 // create a post
-exports.createPost = (req, res, next) => {
+exports.createPost = async(req, res, next) => {
+    console.log('create a post')
+    const post = await Post.findOrCreate({
+        where: { title: 'mon titre' },
+
+    });
+        console.log(post.title); // 'sdepold'
 };
 
 // read : array of all the posts in the database
 exports.getAllPost = (req, res, next) => {
-  const posts = Post.findAll();
-  console.log(posts.every(post => post instanceof Post)); // true
-  console.log("All posts:", JSON.stringify(posts, null, 2));
-  // Post.findAll()
-  // .then(post => res.status(200).json(post))
-  // .catch(error => res.status(400).json({ error }));
+    console.log('get all posts')
 };
 
 // get a post by ID

@@ -1,62 +1,35 @@
-const { Sequelize, DataTypes } = require('sequelize');
-// const database = require('./config/db_connection');
-// const sequelize = require('../config/db_connection');
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+  User.init({
+    first_name: DataTypes.STRING,
+    last_name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+    profile: DataTypes.STRING,
+    isAdmin: DataTypes.BOOLEAN
+  }, {
+    freezeTableName: true,
+    sequelize,
+    modelName: 'User',
+  });
 
-// database connection
-const sequelize = new Sequelize('groupomania', 'root', 'secret', {
-  host: 'localhost',
-  dialect: 'mysql'
-});
+  User.associate = function (models) {
+    User.hasMany(models.Post),
+    User.hasMany(models.Comment);
+  };
 
-const User = sequelize.define('User', {
-  // Model attributes are defined here
-  _id: {
-    type: Sequelize.DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false
-  },
-  first_name: {
-    type: Sequelize.DataTypes.STRING,
-    allowNull: false
-  },
-  last_name: {
-    type: Sequelize.DataTypes.STRING,
-    allowNull: false
-  },
-  email: {
-    type: Sequelize.DataTypes.STRING,
-    allowNull: false,
-    unique: true
-  },
-  password: {
-    type: Sequelize.DataTypes.STRING,
-    allowNull: false
-  },
-  profile: {
-    type: Sequelize.DataTypes.STRING,
-    allowNull: true
-  },
-  createdAt: {
-    allowNull: false,
-    type: Sequelize.DATE,
-  },
-  updatedAt: {
-    allowNull: false,
-    type: Sequelize.DATE,
-  },
-  // Other model options go here
-},
-{
-  freezeTableName: true
-});
-
-// `sequelize.define` also returns the model
-console.log(User === sequelize.models.User); // true
-
-// User.sync({ force: true })
-// User.sync().then((data) => {
-//   console.log('Table and model synced successfully!');
-// }).catch((err) => {
-//   console.log('Error syncing the table and model!');
-// })
+  return User;
+};
