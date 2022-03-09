@@ -25,13 +25,16 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Comment',
   });
 
+  // Comment.belongsTo(Model.User)
+  // Comment.belongsTo(Model.Post)
+
   Comment.associate = function (models) {
-    Comment.belongTo(models.User), {
+    Comment.belongsTo(models.User), {
       foreignKey: {
         allowNull: false
       }
     },
-    Comment.belongTo(models.Post), {
+    Comment.belongsTo(models.Post), {
       foreignKey: {
         allowNull: false
       }
