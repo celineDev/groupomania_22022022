@@ -47,11 +47,16 @@ exports.login = async(req, res, next) => {
             if (!valid) {
                 return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
+            const maxAge = 1 * 24 * 60 * 60 * 1000
+            const token = jwt.sign({ userId: user.id}, process.env.JWT_TOKEN, { expiresIn: maxAge })
+            // sameSite: true,
+            // secure: true,
+            res.cookie('jwt', token, { httpOnly: true, maxAge} )
             res.status(200).json({
                 userId: user.id,
                 token: jwt.sign(
                     { userId: user.id },
-                    `${process.env.RANDOM_TOKEN}`,
+                    process.env.JWT_TOKEN,
                     { expiresIn: '24h' }
                 )
             });
@@ -61,7 +66,10 @@ exports.login = async(req, res, next) => {
     .catch(error => res.status(500).json({ error: 'Erreur serveur 2' }));
 };
 
-exports.logout = async(req, res, next) => {};
+exports.logout = async(req, res, next) => {
+    res.clearCookie("jwt");
+    res.status(200).json("OUT");
+};
 
 exports.updateAccount = async(req, res, next) => {};
 
