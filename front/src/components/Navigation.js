@@ -4,23 +4,23 @@ import { NavLink } from 'react-router-dom';
 
 const Navigation = () => {
     return (
-        <div className="navigation">
+        <header className="navigation">
             <ul>
                 <NavLink to="/">
-                    <li>accueil</li>
+                    <li><img src="./images/icon-left-font-sm.png" alt="logo groupomania" /></li>
+                </NavLink>
+            </ul>
+            <ul>
+                <NavLink to="/signup">
+                    <li>inutile</li>
                 </NavLink>
             </ul>
             <ul>
                 <NavLink to="/profile">
-                    <li>profil</li>
-                </NavLink>
-            </ul>
-            <ul>
-                <NavLink to="/login">
                     <li>Se connecter</li>
                 </NavLink>
             </ul>
-        </div>
+        </header>
     );
 };
 

@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Error404 = () => {
+const SignupForm = () => {
     return (
         <div>
-            <p>Erreur 404</p>
+            S'inscrire
         </div>
     );
 };
 
-export default Error404;
+export default SignupForm;
