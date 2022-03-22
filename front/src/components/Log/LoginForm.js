@@ -24,21 +24,21 @@ const LoginForm = () => {
             },
         })
         .then((res) => {
-            console.log(res)
             if (res.data.error) {
                 emailError.innerHTML = res.data.error.email;
                 passwordError.innerHTML = res.data.error.password;
             } else {
-                console.log(res.data);
-                // window.location = '/';
-                // return res.data;
+                const userId = res.data
+                console.log(userId)
+                sessionStorage.setItem('user', JSON.stringify(userId))
+                window.location = "/";
             }
         })
         .catch((err) => {
             console.log(err)
         })
     }
-
+// let navigate = useNavigate()
     return (
         <form action="" onSubmit={handleLogin} id="login-form">
             <label htmlFor="email">Email</label>

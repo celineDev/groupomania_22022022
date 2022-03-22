@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Navigation from '../components/Navigation';
 import Log from '../components/Log';
+import { UserContext } from '../UserContext';
 
 const Profile = () => {
+    const uid = useContext(UserContext)
     return (
         <div className='profil-page'>
-            <div className='log-container'>
             <Navigation />
-            <Log login={false} signup={true} />
+            {uid ? (
+                <h1>UPDATE PAGE</h1>
+            ) : (
+            <div className='log-container'>
+            <Log login={true} signup={false} />
             <h1>Profile</h1>
-
             </div>
+            )}
         </div>
     );
 };
