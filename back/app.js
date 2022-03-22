@@ -1,7 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser')
 const app = express();
-const auth = require('./middleware/auth');
 
 const userRoutes = require('./routes/user')
 const postRoutes = require('./routes/post')
@@ -24,11 +23,6 @@ app.use((req, res, next) => {
 // request access req.body
 app.use(express.json());
 app.use(cookieParser())
-
-// jwt
-app.get('/jwtid', auth,(req, res) => {
-  res.send(JSON.stringify(res.locals.user.id))
-});
 
 // routes
 app.use('/api/auth', userRoutes)
