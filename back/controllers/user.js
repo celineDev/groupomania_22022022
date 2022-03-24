@@ -4,20 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const models = require('../models')
 
-// http://localhost:3000/api/auth/signup
-// {
-//     "first_name": "John",
-//     "last_name": "Doe",
-//     "email": "johndoe@oc.fr",
-//     "password": "secret"
-// }
-
-// http://localhost:3000/api/auth/login
-// {
-//     "email": "janedoe@oc.fr",
-//     "password": "secret"
-// }
-
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
@@ -71,6 +57,73 @@ exports.logout = async(req, res, next) => {
     res.status(200).json("OUT");
 };
 
-exports.updateAccount = async(req, res, next) => {};
+exports.getAllUsers = async(req, res, next) => {
+    models.User.findAll()
+    .then(users => res.status(200).json(users))
+    .catch(error => res.status(400).json({ error }));
+};
 
-exports.deleteAccount = async(req, res, next) => {};
+exports.getOneUser = async(req, res, next) => {
+    models.User.findOne({ where: { id: req.body.id } })
+    .then(user => res.status(200).json(user))
+    .catch(error => res.status(404).json({ error }));
+};
+
+exports.updateUser = async(req, res, next) => {
+	const id = req.params.id;
+	bcrypt.genSalt(10, function (err, salt) {
+		bcrypt.hash(req.body.password, salt, function (err, hash) {
+			const updatedUser = {
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+                email: req.body.email,
+                password: hash,
+                profile: 'profile.jpg',
+                isAdmin: 0
+			};
+			const userId = req.body.id;
+
+			models.User.findByPk(req.body.id)
+				.then((result) => {
+					if (result !== null && userId === req.body.id) {
+						models.User.update(updatedUser, { where: { id: req.body.id } })
+							.then((result) => {
+								if (result) {
+									res.status(200).json({
+										message: "Profile updated successfully",
+										user: updatedUser,
+									});
+								} else {
+									res.status(403).json({
+										message: "You can only update your account!",
+										error: error,
+									});
+								}
+							})
+							.catch((error) => {
+								res.status(500).json({
+									message: "Something went wrong!",
+									error: error,
+								});
+							});
+					} else {
+						res.status(400).json({
+							message: "Invalid request",
+						});
+					}
+				})
+				.catch((error) => {
+					res.status(500).json({
+						message: "Something went wrong",
+						error: error,
+					});
+				});
+		});
+	});
+}
+
+exports.deleteUser = async(req, res, next) => {
+    models.User.destroy({  where: { id: req.body.id } })
+        .then(() => res.status(200).json({ message: 'Compte utilisateur supprimé !'}))
+        .catch(error => res.status(400).json({ error }));
+};
