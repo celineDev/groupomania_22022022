@@ -9,9 +9,6 @@ const App = () => {
 
   useEffect(() => {
     const loggedInUser = JSON.parse(sessionStorage.getItem('user'));
-    console.log('loggedInUser')
-    console.log(loggedInUser) // userid et token
-    console.log(loggedInUser) // userid et token
     setUid(loggedInUser);
   }, []);
 
