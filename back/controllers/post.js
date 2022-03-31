@@ -24,15 +24,13 @@ exports.createPost = async(req, res, next) => {
             }
             else {
                 const post = new models.Post({
-                    content: req.body.content,
-                    imageUrl: req.body.imageUrl,
-                    likes: req.body.likes,
-                    comment: req.body.comment,
                     UserId: userFound.id,
+                    content: req.body.content,
                 })
+                console.log(post)
                 post.save()
                 .then(() => res.status(201).json({ message: 'Post créé !' }))
-                .catch(error => res.status(400).json({ error: 'Le post sans image n\'a pas pu être créé !!' }));
+                .catch(error => res.status(400).json({ error }));
             }
         }
         else {
