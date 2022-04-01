@@ -40,7 +40,7 @@ const Cards = ({ post }) => {
         <li style={{border: '1px solid black'}} className="card-container" key={post.post_id} id={post.post_id}>
             <div className="header-card">
                 <div className="poster">
-                    <img className="poster-pic" src={posterPicture} alt="poster profile picture" />
+                    <img className="imageUrl" src={posterPicture} alt="poster profile picture" />
                     <h3>
                         {firstName} {lastName}
                     </h3>
@@ -48,8 +48,8 @@ const Cards = ({ post }) => {
                 <span>{dateParser(post.updatedAt)}</span>
             </div>
             {isUpdated === false && <p>{post.content}</p>}
-            {post.picture && (
-              <img src={post.picture} alt="card-pic" className="card-pic" />
+            {post.imageUrl && (
+              <img src={post.imageUrl} width="200px" alt="card-pic" className="card-pic" />
             )}
         </li>
     );

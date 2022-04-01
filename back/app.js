@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser')
 const app = express();
+const path = require('path');
 
 const userRoutes = require('./routes/user')
 const postRoutes = require('./routes/post')
@@ -23,6 +24,8 @@ app.use((req, res, next) => {
 // request access req.body
 app.use(express.json());
 app.use(cookieParser())
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // routes
 app.use('/api/auth', userRoutes)

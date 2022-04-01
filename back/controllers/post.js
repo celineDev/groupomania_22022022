@@ -1,5 +1,7 @@
 const models = require('../models');
 const jwt = require('jsonwebtoken');
+// import package file system (node), allow to modify/delete files
+const fs = require('fs');
 
 // create a post
 exports.createPost = async(req, res, next) => {
@@ -10,28 +12,15 @@ exports.createPost = async(req, res, next) => {
     models.User.findOne({ where: { id: userId } })
     .then((userFound) => {
         if (userFound) {
-            if (req.file) {
-                const post = new models.Post({
-                    content: req.body.content,
-                    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-                    likes: req.body.likes,
-                    comment: req.body.comment,
-                    UserId: userFound.id,
-                })
-                post.save()
-                .then(() => res.status(201).json({ message: 'Post créé !' }))
-                .catch(error => res.status(400).json({ error: 'Le post avec image n\'a pas pu être créé !' }));
-            }
-            else {
-                const post = new models.Post({
-                    UserId: userFound.id,
-                    content: req.body.content,
-                })
-                console.log(post)
-                post.save()
-                .then(() => res.status(201).json({ message: 'Post créé !' }))
-                .catch(error => res.status(400).json({ error }));
-            }
+            const post = new models.Post({
+                UserId: userFound.id,
+                content: req.body.content,
+                imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`: req.body.imageUrl,
+            })
+            console.log(post)
+            post.save()
+            .then(() => res.status(201).json({ message: 'Post créé !' }))
+            .catch(error => res.status(400).json({ error: 'Le post avec image n\'a pas pu être créé !' }));
         }
         else {
             return res.status(404).json({ error: 'Utilisateur non trouvé' })

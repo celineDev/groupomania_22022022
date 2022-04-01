@@ -2,11 +2,11 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
-import { isEmpty, timestampParser } from './../Utils'
+import { isEmpty } from './../Utils'
 
 const NewPostForm = () => {
     const uid =  useContext(UserContext)
-    const [userPicture, setUserPicture] = useState('')
+    // const [userPicture, setUserPicture] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
 
@@ -35,43 +35,39 @@ const NewPostForm = () => {
         }
         getUserInfo()
 
-        if(firstName, lastName);
     }, [uid, firstName, lastName])
 
     const handlePost = async () => {
         if (message || postPicture || video) {
-            const formData = new FormData()
-            formData.append("UserId", uid.userId)
-            formData.append("content", message)
-            // formData.append("video", video)
-            if (file) formData.append("imageUrl", file)
+            const data = new FormData();
+            data.append("UserId", uid.userId);
+            data.append("content", message);
+            if (file) {
+                data.append("image", file);
+            }
 
-            console.log(message)
-            const UserId = uid.userId
-            const content = message
-
-            axios({
-                method: "post",
-                baseURL: `http://localhost:3000/api/post`,
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: {UserId, content,}
-            })
-            .then((res) => {
-                console.log(res.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            // cancelPost()
+            try {
+                const res = await axios({
+                    method: "post",
+                    baseURL: `http://localhost:3000/api/post`,
+                    withCredentials: true,
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                    data: data,
+                });
+                console.log('File uploaded', res.data);
+            } catch (err) {
+                console.error('Failed to upload file', err);
+            }
         } else {
             alert("Veuillez entrer un message")
         }
     }
 
-    const handlePicture = () => {}
+    const handlePicture = (e) => {
+        setPostPicture(URL.createObjectURL(e.target.files[0]))
+        setFile(e.target.files[0])
+        // setVideo('')
+    }
 
     const cancelPost = () => {
         setMessage('')
@@ -84,7 +80,7 @@ const NewPostForm = () => {
         <div className='post-container' style={{border: "1px solid black"}}>
             <NavLink to="/profile">
                 <div className='user-info'>
-                    <img src="images/uploads/profile.jpg" width="50px" alt="profil de l'utilisateur" />
+                    <img src="uploads/profile.jpg" width="50px" alt="profil de l'utilisateur" />
                     <p>{firstName} {lastName} is connected</p>
                 </div>
             </NavLink>
@@ -99,6 +95,7 @@ const NewPostForm = () => {
                     onChange={(e) => setMessage(e.target.value)}
                     value={message}
                 ></textarea>
+                <img src={postPicture} alt="" className="img-preview" width="200px" />
             </div>
 
             <div className='footer-form'>
@@ -110,7 +107,8 @@ const NewPostForm = () => {
                             type="file"
                             id='file-upload'
                             name='file'
-                            accept='.jpg, .jpeg, .png' onChange={(e) => handlePicture()}
+                            accept='.jpg, .jpeg, .png'
+                            onChange={(e) => handlePicture(e)}
                         />
                         </>
                     )}
