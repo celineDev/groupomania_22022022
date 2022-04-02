@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Post.init({
     content: DataTypes.TEXT,
     imageUrl: DataTypes.STRING,
+    video: DataTypes.STRING,
     likes: DataTypes.INTEGER,
     comment: DataTypes.TEXT
   }, {

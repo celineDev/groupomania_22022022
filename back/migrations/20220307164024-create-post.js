@@ -24,6 +24,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
+      video: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       likes: {
         type: Sequelize.INTEGER,
         allowNull: true

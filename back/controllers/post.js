@@ -16,6 +16,7 @@ exports.createPost = async(req, res, next) => {
                 UserId: userFound.id,
                 content: req.body.content,
                 imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`: req.body.imageUrl,
+                video: req.body.video,
             })
             console.log(post)
             post.save()
@@ -48,4 +49,25 @@ exports.modifyPost = (req, res, next) => {
 
 // delete
 exports.deletePost = (req, res, next) => {
+    models.Post.findOne({ where: { id: req.params.id } })
+    .then(post => {
+        if (post) {
+            if (post.imageUrl != null) {
+                const filename = post.imageUrl.split('/images/')[1];
+                fs.unlink(`images/${filename}`, () => {
+                    models.Post.destroy({ where: { id: req.params.id } })
+                    .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+                    .catch(error => res.status(400).json({ error }));
+                });
+
+            } else {
+                models.Post.destroy({ where: { id: req.params.id } })
+                .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+                .catch(error => res.status(400).json({ error }));
+            }
+        } else {
+            return res.status(404).json({ error: 'Ce post n\'existe pas'})
+        }
+    })
+    .catch(error => res.status(500).json({ error }));
 }

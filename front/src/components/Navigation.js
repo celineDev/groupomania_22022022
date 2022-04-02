@@ -7,7 +7,7 @@ import axios from 'axios'
 
 const Navigation = () => {
     const uid = useContext(UserContext);
-    const [first_name, setFirstName] = useState()
+    const [firstName, setFirstName] = useState()
 
     useEffect(() => {
         const getUserInfo = async () => {
@@ -19,7 +19,7 @@ const Navigation = () => {
                     withCredentials: true,
                 })
                 .then((res) => {
-                    setFirstName(res.data.first_name)
+                    setFirstName(res.data.firstName)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -28,8 +28,8 @@ const Navigation = () => {
         }
         getUserInfo()
 
-        if(first_name);
-    }, [uid, first_name])
+        if(firstName);
+    }, [uid, firstName])
 
 
     return (
@@ -47,7 +47,7 @@ const Navigation = () => {
                         {/* <li></li> li vide */}
                         <li className='welcome'>
                             <NavLink to='/profile'>
-                                <h5>Bienvenue {first_name}</h5>
+                                <h5>Bienvenue {firstName}</h5>
                             </NavLink>
                         </li>
                         <Logout />

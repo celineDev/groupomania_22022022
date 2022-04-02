@@ -25,8 +25,8 @@ const NewPostForm = () => {
                     withCredentials: true,
                 })
                 .then((res) => {
-                    setFirstName(res.data.first_name)
-                    setLastName(res.data.last_name)
+                    setFirstName(res.data.firstName)
+                    setLastName(res.data.lastName)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -42,6 +42,7 @@ const NewPostForm = () => {
             const data = new FormData();
             data.append("UserId", uid.userId);
             data.append("content", message);
+            data.append("video", video);
             if (file) {
                 data.append("image", file);
             }
@@ -58,6 +59,7 @@ const NewPostForm = () => {
             } catch (err) {
                 console.error('Failed to upload file', err);
             }
+            cancelPost()
         } else {
             alert("Veuillez entrer un message")
         }
@@ -66,7 +68,7 @@ const NewPostForm = () => {
     const handlePicture = (e) => {
         setPostPicture(URL.createObjectURL(e.target.files[0]))
         setFile(e.target.files[0])
-        // setVideo('')
+        setVideo('')
     }
 
     const cancelPost = () => {
@@ -75,6 +77,23 @@ const NewPostForm = () => {
         setVideo('')
         setFile('')
     }
+
+    // add block error
+    useEffect(() => {
+        const handleVideo = () => {
+            let findLink = message.split(" ")
+            for (let i = 0; i < findLink.length; i++) {
+                if (findLink[i].includes("https://www.yout") || findLink[i].includes("https://yout")) {
+                    let embed = findLink[i].replace("watch?v=", "embed/")
+                    setVideo(embed.split("&")[0])
+                    findLink.splice(i, 1)
+                    setMessage(findLink.join(" "))
+                    setPostPicture("")
+                }
+            }
+        }
+        handleVideo()
+    }, [message, video])
 
     return (
         <div className='post-container' style={{border: "1px solid black"}}>
@@ -96,6 +115,13 @@ const NewPostForm = () => {
                     value={message}
                 ></textarea>
                 <img src={postPicture} alt="" className="img-preview" width="200px" />
+                <iframe
+                    src={video}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title={video}
+                ></iframe>
             </div>
 
             <div className='footer-form'>
