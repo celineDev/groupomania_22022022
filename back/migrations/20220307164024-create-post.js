@@ -30,7 +30,8 @@ module.exports = {
       },
       likes: {
         type: Sequelize.INTEGER,
-        allowNull: true
+        allowNull: true,
+        defaultValue: 0,
       },
       comment: {
         type: Sequelize.TEXT,

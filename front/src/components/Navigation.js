@@ -38,7 +38,7 @@ const Navigation = () => {
                 <ul className='logo'>
                     <li>
                         <NavLink activeclassname="active" to="/">
-                            <img src="./images/icon-left-font-sm.png" alt="logo groupomania" />
+                            <img src="./images/logos/icon-left-font-sm.png" alt="logo groupomania" />
                         </NavLink>
                     </li>
                 </ul>

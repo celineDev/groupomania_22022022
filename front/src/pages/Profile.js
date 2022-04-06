@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Navigation from '../components/Navigation';
 import Log from '../components/Log';
 import { UserContext } from '../UserContext';
+import UpdateProfile from '../components/Profile/UpdateProfile';
 
 const Profile = () => {
     const uid = useContext(UserContext)
@@ -9,7 +10,7 @@ const Profile = () => {
         <div className='profil-page'>
             <Navigation />
             {uid ? (
-                <h1>UPDATE PAGE</h1>
+                <UpdateProfile />
             ) : (
             <div className='log-container'>
             <Log login={true} signup={false} />

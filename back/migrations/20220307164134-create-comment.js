@@ -28,14 +28,6 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      imageUrl: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      likes: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

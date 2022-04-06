@@ -16,9 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Comment.init({
     id_user: DataTypes.INTEGER,
     id_post: DataTypes.INTEGER,
-    content: DataTypes.TEXT,
-    imageUrl: DataTypes.STRING,
-    likes: DataTypes.INTEGER
+    content: DataTypes.TEXT
   }, {
     freezeTableName: true,
     sequelize,

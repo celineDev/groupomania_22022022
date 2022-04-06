@@ -7,7 +7,7 @@ const Logout = () => {
         if (window !== "undefined") {
             cookie.remove(key, { expires: 1 });
         }
-  };
+    };
 
   const logout = async () => {
         await axios({

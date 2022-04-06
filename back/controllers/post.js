@@ -9,6 +9,8 @@ exports.createPost = async(req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.JWT_TOKEN);
     const userId = decodedToken.userId;
 
+    console.log(req.file)
+
     models.User.findOne({ where: { id: userId } })
     .then((userFound) => {
         if (userFound) {
@@ -18,7 +20,6 @@ exports.createPost = async(req, res, next) => {
                 imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`: req.body.imageUrl,
                 video: req.body.video,
             })
-            console.log(post)
             post.save()
             .then(() => res.status(201).json({ message: 'Post créé !' }))
             .catch(error => res.status(400).json({ error: 'Le post avec image n\'a pas pu être créé !' }));
@@ -45,6 +46,29 @@ exports.getOnePost = (req, res, next) => {
 
 // update
 exports.modifyPost = (req, res, next) => {
+    if (req.file) {
+        models.Post.findOne({ where: { id: req.params.id } })
+        .then((post) => {
+            const fileName = post.imageUrl.split('/images/')[1];
+            fs.unlink(`images/${fileName}`, () => {
+                const postObject = {
+                    content: req.body.content,
+                    imageUrl: `${req.protocol}://${req.get('host')}/images/${
+                    req.file.filename
+                    }`,
+                };
+                models.Post.update(postObject, { where: { id: req.req.id } })
+                .then(() => res.status(200).json({ message: 'Post modifié !'}))
+                .catch(error => res.status(400).json({ error }));
+            });
+        })
+        .catch((error) => res.status(500).json({ error }));
+    } else {
+        const postObject = { ...req.body };
+        models.Post.update(postObject, { where: { id: req.params.id } })
+        .then(() => res.status(200).json({ message: 'Post modifié !'}))
+        .catch(error => res.status(400).json({ error }));
+    }
 }
 
 // delete
@@ -71,3 +95,38 @@ exports.deletePost = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 }
+
+exports.like = (req, res, next) => {
+    const like = req.body.like
+
+    switch (like) {
+        case 1:
+            models.Post.findOne({ where: { id: req.params.id } })
+            .then((postFound) => {
+                console.log('postFound', postFound)
+                console.log('postFounduserid', postFound.UserId)
+                console.log('postFound.likes', postFound.likes)
+                console.log('req.body', req.body)
+                models.Post.update({ likes: postFound.likes +1 }, {where: { id: req.params.id} })
+                .then(() => res.status(200).json({ message: 'Like un message'}))
+                .catch(error => res.status(400).json({ error }));
+            })
+        break;
+        case 0:
+            models.Post.findOne({ where: { id: req.params.id } })
+            .then((postFound) => {
+                models.Post.update({ likes: postFound.likes -1 }, {where: { id: req.params.id} })
+                .then(() => res.status(200).json({ message: 'Like supprimé'}))
+                .catch(error => res.status(400).json({ error }));
+            })
+        break;
+    }
+}
+
+exports.likeCount = (req, res, next) => {
+    models.Post.findOne({ where: {id: req.params.id} })
+    .then(posts => res.status(200).json(posts.likes))
+    .catch(error => res.status(400).json({ error }));
+}
+
+exports.usersLiked = (req, res, next) => {}
