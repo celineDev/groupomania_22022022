@@ -18,7 +18,6 @@ exports.createPost = async(req, res, next) => {
                 UserId: userFound.id,
                 content: req.body.content,
                 imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`: req.body.imageUrl,
-                video: req.body.video,
             })
             post.save()
             .then(() => res.status(201).json({ message: 'Post créé !' }))
@@ -52,20 +51,18 @@ exports.modifyPost = (req, res, next) => {
             const fileName = post.imageUrl.split('/images/')[1];
             fs.unlink(`images/${fileName}`, () => {
                 const postObject = {
-                    content: req.body.content,
                     imageUrl: `${req.protocol}://${req.get('host')}/images/${
                     req.file.filename
                     }`,
                 };
-                models.Post.update(postObject, { where: { id: req.req.id } })
+                models.Post.update(postObject, { where: { id: req.params.id } })
                 .then(() => res.status(200).json({ message: 'Post modifié !'}))
                 .catch(error => res.status(400).json({ error }));
             });
         })
         .catch((error) => res.status(500).json({ error }));
     } else {
-        const postObject = { ...req.body };
-        models.Post.update(postObject, { where: { id: req.params.id } })
+        models.Post.update({content: req.body.content}, { where: { id: req.params.id } })
         .then(() => res.status(200).json({ message: 'Post modifié !'}))
         .catch(error => res.status(400).json({ error }));
     }

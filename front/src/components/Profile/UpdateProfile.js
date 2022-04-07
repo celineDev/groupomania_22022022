@@ -44,7 +44,6 @@ const UpdateProfile = () => {
 			<h1> Profil de {firstName}</h1>
 			<div className="picture-part">
 				<h3>Photo de profil</h3>
-				<img src='' alt="user-pic" />
 				<UploadImg img={userProfile} uid={uid} />
 				{/* <p>{error.maxSize}</p>
 				<p>{error.format}</p> */}

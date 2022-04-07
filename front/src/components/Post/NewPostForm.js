@@ -12,7 +12,6 @@ const NewPostForm = () => {
 
     const [message, setMessage] = useState('')
     const [postPicture, setPostPicture] = useState('')
-    const [video, setVideo] = useState('')
     const [file, setFile] = useState('')
 
     useEffect(() => {
@@ -38,11 +37,10 @@ const NewPostForm = () => {
     }, [uid, firstName, lastName])
 
     const handlePost = async () => {
-        if (message || postPicture || video) {
+        if (message || postPicture) {
             const data = new FormData();
             data.append("UserId", uid.userId);
             data.append("content", message);
-            data.append("video", video);
             if (file) {
                 data.append("image", file);
             }
@@ -68,32 +66,13 @@ const NewPostForm = () => {
     const handlePicture = (e) => {
         setPostPicture(URL.createObjectURL(e.target.files[0]))
         setFile(e.target.files[0])
-        setVideo('')
     }
 
     const cancelPost = () => {
         setMessage('')
         setPostPicture('')
-        setVideo('')
         setFile('')
     }
-
-    // add block error
-    useEffect(() => {
-        const handleVideo = () => {
-            let findLink = message.split(" ")
-            for (let i = 0; i < findLink.length; i++) {
-                if (findLink[i].includes("https://www.yout") || findLink[i].includes("https://yout")) {
-                    let embed = findLink[i].replace("watch?v=", "embed/")
-                    setVideo(embed.split("&")[0])
-                    findLink.splice(i, 1)
-                    setMessage(findLink.join(" "))
-                    setPostPicture("")
-                }
-            }
-        }
-        handleVideo()
-    }, [message, video])
 
     return (
         <div className='post-container' style={{border: "1px solid black"}}>
@@ -115,19 +94,10 @@ const NewPostForm = () => {
                     value={message}
                 ></textarea>
                 <img src={postPicture} alt="" className="img-preview" width="200px" />
-                <iframe
-                    src={video}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title={video}
-                ></iframe>
             </div>
 
             <div className='footer-form'>
                 <div className='icon'>
-                    {isEmpty(video) && (
-                        <>
                         <img src="" alt="icone paysage" />
                         <input
                             type="file"
@@ -136,14 +106,9 @@ const NewPostForm = () => {
                             accept='.jpg, .jpeg, .png'
                             onChange={(e) => handlePicture(e)}
                         />
-                        </>
-                    )}
-                    {video && (
-                        <button onClick={(e) => setVideo('')}>Supprimer vidéo</button>
-                    )}
                 </div>
                 <div className='btn-send'>
-                    {message || postPicture || video.length > 20 ? (
+                    {message || postPicture ? (
                         <button className='cancel' onClick={(e) => cancelPost()}>Annuler</button>
                     ) : null}
                     <button className='send' onClick={(e) => handlePost()}>Envoyer</button>

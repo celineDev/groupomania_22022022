@@ -19,11 +19,16 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        isEmail: true,
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        isLowercase: true,
+        isUppercase: true,
+        isDecimal: true,
+        len: [8,20],
       },
       profile: {
         type: Sequelize.STRING,

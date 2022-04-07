@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 const UploadImg = ({ uid }) => {
     const [file, setFile] = useState('')
-    const [userProfile, setUserProfile] = useState('')
+    const [userProfile, setUserProfile] = useState(false)
 
     useEffect(() => {
         const getUserInfo = async () => {
@@ -52,7 +52,7 @@ const UploadImg = ({ uid }) => {
                 {userProfile ? (
                     <img className='profil-pic' src={userProfile} width='100px' alt="profil" />
                 ) : (
-                    <img className='profil-pic' src="./uploads/profile.jpg" width='100px' alt="profil" />
+                    <img className='profil-pic' src="./images/img/profile.jpg" width='100px' alt="profil" />
                 )}
             </div>
             image

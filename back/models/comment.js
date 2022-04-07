@@ -16,15 +16,12 @@ module.exports = (sequelize, DataTypes) => {
   Comment.init({
     id_user: DataTypes.INTEGER,
     id_post: DataTypes.INTEGER,
-    content: DataTypes.TEXT
+    comment: DataTypes.TEXT
   }, {
     freezeTableName: true,
     sequelize,
     modelName: 'Comment',
   });
-
-  // Comment.belongsTo(Model.User)
-  // Comment.belongsTo(Model.Post)
 
   Comment.associate = function (models) {
     Comment.belongsTo(models.User), {

@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_user: {
+      userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -16,7 +16,7 @@ module.exports = {
           key: 'id'
         }
       },
-      id_post: {
+      postId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -24,7 +24,7 @@ module.exports = {
           key: 'id'
         }
       },
-      content: {
+      comment: {
         type: Sequelize.TEXT,
         allowNull: false
       },
