@@ -7,22 +7,31 @@ const models = require('../models')
 const fs = require('fs');
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-        const user = new models.User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: hash,
-            profile: 'profile.jpg',
-            isAdmin: 0
-        });
-        console.log(user)
-        user.save()
-            .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-            .catch(error => res.status(400).json({ error: 'L\'utilisateur n\'a pas pu être créé !' }));
+    models.User.findOne({ where: { email: req.body.email } })
+    .then((user) => {
+        if (user) {
+            return res.status(400).json({ error: 'Cet email existe déjà' });
+        }
+        else {
+            bcrypt.hash(req.body.password, 10)
+            .then(hash => {
+            const user = new models.User({
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                password: hash,
+                profile: 'profile.jpg',
+                isAdmin: 0
+            });
+            console.log(user)
+            user.save()
+                .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+                .catch(error => res.status(400).json({ error: 'L\'utilisateur n\'a pas pu être créé !' }));
+        })
+        .catch(error => res.status(500).json({ error: 'Erreur interne' }));
+        }
     })
-    .catch(error => res.status(500).json({ error: 'Erreur interne' }));
+    .catch(error => res.status(500).json({ error: 'Erreur serveur' }));
 };
 
 exports.login = async(req, res, next) => {
@@ -50,9 +59,9 @@ exports.login = async(req, res, next) => {
                 )
             });
         })
-        .catch(error => res.status(500).json({ error: 'Erreur serveur 1' }));
+        .catch(error => res.status(500).json({ error: 'Erreur serveur' }));
     })
-    .catch(error => res.status(500).json({ error: 'Erreur serveur 2' }));
+    .catch(error => res.status(500).json({ error: 'Erreur serveur' }));
 };
 
 exports.logout = async(req, res, next) => {

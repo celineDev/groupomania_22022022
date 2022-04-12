@@ -1,70 +1,73 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import eyeOpen from './../../assets/icons/eyeOpen.svg'
+import eyeClosed from './../../assets/icons/eyeClosed.svg'
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import *  as yup from 'yup'
+
+const schema = yup
+  .object()
+  .shape({
+    email: yup.string().email("Email non valide").required("Email requis"),
+    password: yup.string().required("Mot de passe requis"),
+})
+  .required()
 
 const LoginForm = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [passwordIsVisible, setPasswordIsVisible] = useState('')
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(schema),
+      });
 
-    const handleLogin = (e) => {
-        e.preventDefault();
+    const onSubmit = async data => {
+        try {
+            const res = await axios({
+                method: "post",
+                url: `http://localhost:3000/api/auth/login`,
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+                data: data,
+            });
+            console.log('Enregistré', res.data);
+            const userId = res.data
+            console.log(userId)
+            sessionStorage.setItem('user', JSON.stringify(userId))
+            window.location = "/";
+        } catch (err) {
+          document.getElementById('error').innerText = 'Erreur sur les identifiants'
+          console.error('echec', err);
+        }
+      }
 
-        const emailError = document.querySelector('p.email.error')
-        const passwordError = document.querySelector('p.password.error').style.color="red"
-
-        axios({
-            method: "post",
-            url: `${process.env.REACT_APP_API_URL}api/auth/login`,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true,
-            data: {
-                email,
-                password,
-            },
-        })
-        .then((res) => {
-            if (res.data.error) {
-                emailError.innerHTML = res.data.error.email;
-                passwordError.innerHTML = res.data.error.password;
-            } else {
-                const userId = res.data
-                console.log(userId)
-                sessionStorage.setItem('user', JSON.stringify(userId))
-                window.location = "/";
-            }
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    }
-// let navigate = useNavigate()
     return (
-        <form action="" onSubmit={handleLogin} id="login-form">
+        <form action="" onSubmit={handleSubmit(onSubmit)} id="login-form">
             <label htmlFor="email">Email</label>
             <br />
             <input
                 type="text"
                 name='email'
                 id='email'
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                placeholder='Email'
+                {...register('email', { required: true })}
             />
             <br />
-            <p className="email error">Veuillez rentrer un email valide</p>
-            <br />
+            <p className="error-msg error">{errors.email ? <span>{errors.email.message} </span> : null }</p>
 
             <label htmlFor="password">Mot de passe</label>
             <br />
             <input
-                type="text"
+                type={passwordIsVisible ? 'text' : 'password'}
                 name='password'
                 id='password'
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
+                placeholder='Mot de passe'
+                {...register('password', { required: true })}
             />
+            <span onClick={() => setPasswordIsVisible((prevState) => !prevState)}>
+                <img src={passwordIsVisible ? eyeOpen : eyeClosed} width="32px" alt={passwordIsVisible ? 'oeil ouvert' : 'oeil fermé'} />
+            </span>
             <br />
-            <p className="password error">Veuillez renseigner un mot de passe</p>
+            <p className="error-msg error" id='error'>{errors.password ? <span>{errors.password.message}</span>: null }</p>
             <br />
 
             <input type="submit" value="Se connecter"/>
