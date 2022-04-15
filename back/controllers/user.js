@@ -20,7 +20,7 @@ exports.signup = (req, res, next) => {
                 lastName: req.body.lastName,
                 email: req.body.email,
                 password: hash,
-                profile: 'profile.jpg',
+                profile: `${req.protocol}://${req.get('host')}/images/default/profile.jpg`,
                 isAdmin: 0
             });
             console.log(user)

@@ -49,11 +49,7 @@ const UploadImg = ({ uid }) => {
     return (
         <div className='profil-picture'>
             <div className='profil-img'>
-                {userProfile ? (
-                    <img className='profil-pic' src={userProfile} width='100px' alt="profil" />
-                ) : (
-                    <img className='profil-pic' src="./images/img/profile.jpg" width='100px' alt="profil" />
-                )}
+                <img className='profil-pic' src={userProfile} width='100px' alt="profil" />
             </div>
             image
             <form action="" onSubmit={handlePicture} className="upload-pic">

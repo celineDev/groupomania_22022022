@@ -41,7 +41,7 @@ const UpdateProfile = () => {
 		<>
 		{" "}
 		<div className="profil-container">
-			<h1> Profil de {firstName}</h1>
+			<h1> Profil de {firstName} {lastName}</h1>
 			<div className="picture-part">
 				<h3>Photo de profil</h3>
 				<UploadImg img={userProfile} uid={uid} />

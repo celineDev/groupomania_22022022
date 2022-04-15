@@ -1,60 +1,65 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
-import Logout from '../Log/Logout';
 
 const UserInfo = ({ uid }) => {
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
-    const [updateForm, setUpdateForm] = useState(false);
 
-    // useEffect(() => {
-	// 	const getUserInfo = async () => {
-	// 		await axios({
-	// 			method: "get",
-	// 			url: `http://localhost:3000/api/auth/${uid}`,
-	// 			headers: {
-	// 				'Content-Type': 'application/json'
-	// 			},
-	// 			withCredentials: true,
-	// 		})
-	// 			.then((res) => {
-	// 				console.log(res)
-	// 			})
-	// 			.catch((err) => {
-	// 				console.log(err);
-	// 			});
-	// 	};
-	// 	getUserInfo();
+    const [isUpdated, setIsUpdated] = useState(false);
+    const [firstNameUpdate, setFirstNameUpdate] = useState(false);
+    const [lastNameUpdate, setLastNameUpdate] = useState(false);
 
-	// }, [uid, firstName, lastName]);
+    useEffect(() => {
+		const getUserInfo = async () => {
+			await axios({
+				method: "get",
+				url: `http://localhost:3000/api/auth/${uid}`,
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				withCredentials: true,
+			})
+				.then((res) => {
+                    setFirstName(res.data.firstName)
+                    setLastName(res.data.lastName)
+					console.log(res)
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		};
+		getUserInfo();
 
-    const handleUpdate = async (e) => {
-        e.preventDefault()
-        const data = new FormData()
-        data.append('firstName', firstName)
-        data.append('lastName', lastName)
+	}, [uid, firstName, lastName]);
 
-		await axios({
-			method: "put",
-			baseURL: `http://localhost:3000/api/auth/${uid}`,
-			headers: {
-				'Content-Type': 'application/json'
-			},
-            withCredentials: true,
-			data: data,
-		})
-        .then((res) => {
-            console.log(res.err)
-            if (res.err) {
+    console.log(firstName)
+
+    const handleUpdate = async () => {
+        if (firstNameUpdate || lastNameUpdate) {
+            const data = new FormData()
+            data.append ('firstName', firstNameUpdate || firstName)
+            data.append ('lastName', lastNameUpdate || lastName)
+            axios({
+                method: 'put',
+                baseURL: `http://localhost:3000/api/auth/${uid}`,
+                withCredentials: true,
+                data: data,
+            })
+            .then((res) => {
                 console.log(res.err)
-            }
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-		setUpdateForm(false)
+                if (res.err) {
+                    console.log(res.err)
+                }
+                window.location = '/profile'
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
     }
+
+    const cancelPost=()=>{window.location = '/profile'}
 
     const removeCookie = (key) => {
         if (window !== "undefined") {
@@ -71,54 +76,41 @@ const UserInfo = ({ uid }) => {
         .then(() => {
             removeCookie("jwt")
             sessionStorage.clear()
+            window.location = "/"
         })
         .catch((err) => console.log(err))
-        window.location = "/"
     }
 
     return (
         <div className='user-info'>
             <div className="firstname-update">
-                <h3>Prénom {firstName}</h3>
-                {updateForm === false && (
-                <>
-                    <p onClick={() => setUpdateForm(!updateForm)}>{firstName}</p>
-                    <button onClick={() => setUpdateForm(!updateForm)}>
-                    Modifier prénom
-                    </button>
-                </>
-                )}
-                {updateForm && (
-                <>
-                    <textarea
-                    type="text"
-                    defaultValue={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    ></textarea>
-                    <button onClick={handleUpdate}>Valider modifications</button>
-                </>
+                {isUpdated === false && <p>{firstName}</p>}
+                {isUpdated === false && <p>{lastName}</p>}
+                {isUpdated && (
+                    <div className="update-post">
+                        <input
+                            type="text"
+                            defaultValue={firstName}
+                            onChange={(e) => setFirstNameUpdate(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            defaultValue={lastName}
+                            onChange={(e) => setLastNameUpdate(e.target.value)}
+                        />
+                        <div className="button-container">
+                            <button className='cancel' onClick={(e) => cancelPost()}>Annuler</button>
+                            <button className="btn" onClick={handleUpdate}>Valider modification</button>
+                        </div>
+                    </div>
                 )}
             </div>
-            <div className="lastname-update">
-                <h3>Nom {lastName}</h3>
-                {updateForm === false && (
-                <>
-                    <p onClick={() => setUpdateForm(!updateForm)}>{lastName}</p>
-                    <button onClick={() => setUpdateForm(!updateForm)}>
-                    Modifier nom
+            <div className="button-container">
+                <div className="edit-button">
+                    <button onClick={() => setIsUpdated(!isUpdated)}>
+                        <img src="" alt="edit icon" />
                     </button>
-                </>
-                )}
-                {updateForm && (
-                <>
-                    <textarea
-                    type="text"
-                    defaultValue={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    ></textarea>
-                    <button onClick={handleUpdate}>Valider modifications</button>
-                </>
-                )}
+                </div>
             </div>
             <div id="deleteAccount"
                 onClick={() => {

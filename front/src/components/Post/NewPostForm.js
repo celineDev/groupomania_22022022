@@ -78,8 +78,8 @@ const NewPostForm = () => {
         <div className='post-container' style={{border: "1px solid black"}}>
             <NavLink to="/profile">
                 <div className='user-info'>
-                    <img src="uploads/profile.jpg" width="50px" alt="profil de l'utilisateur" />
-                    <p>{firstName} {lastName} is connected</p>
+                    <img src="images/img/profile.jpg" width="50px" alt="profil de l'utilisateur" />
+                    <p>{firstName} {lastName}</p>
                 </div>
             </NavLink>
             <div className='post-form'>
