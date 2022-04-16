@@ -87,16 +87,27 @@ exports.updateUser = (req, res, next) => {
         models.User.findOne({ where: { id: req.params.id } })
         .then((user) => {
             const fileName = user.profile.split('/images/')[1];
-            fs.unlink(`images/${fileName}`, () => {
-                const userObject = {
-                    profile: `${req.protocol}://${req.get('host')}/images/${
-                    req.file.filename
-                    }`,
+            // keep defaut profile picture
+            if (fileName !== "default/profile.jpg") {
+                fs.unlink(`images/${fileName}`, () => {
+                    const userObject = {
+                        profile: `${req.protocol}://${req.get('host')}/images/${
+                        req.file.filename
+                        }`,
+                    }
+                    models.User.update(userObject, { where: { id: req.params.id } })
+                    .then(() => res.status(200).json({ message: 'Utilisateur modifié !'}))
+                    .catch(error => res.status(400).json({ error }));
+                });
+            } else {
+                const user = {
+                    profile: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 }
-                models.User.update(userObject, { where: { id: req.params.id } })
-                .then(() => res.status(200).json({ message: 'Utilisateur modifié !'}))
-                .catch(error => res.status(400).json({ error }));
-            });
+                console.log(user)
+                models.User.update(user, { where: { id: req.params.id } })
+                    .then(() => res.status(201).json({ message: 'Utilisateur modifié !' }))
+                    .catch(error => res.status(400).json({ error: 'L\'utilisateur n\'a pas pu être modifié !' }));
+            }
         })
         .catch((error) => res.status(500).json({ error }));
     } else {

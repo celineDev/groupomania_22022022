@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
-import { isEmpty } from './../Utils'
 
 const NewPostForm = () => {
     const uid =  useContext(UserContext)
@@ -54,6 +53,7 @@ const NewPostForm = () => {
                     data: data,
                 });
                 console.log('File uploaded', res.data);
+                window.location = '/'
             } catch (err) {
                 console.error('Failed to upload file', err);
             }

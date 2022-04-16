@@ -32,7 +32,9 @@ exports.createPost = async(req, res, next) => {
 
 // read : array of all the posts in the database
 exports.getAllPost = (req, res, next) => {
-    models.Post.findAll({})
+    models.Post.findAll({
+        order:[['createdAt', 'DESC']]
+    })
     .then(posts => res.status(200).json(posts))
     .catch(error => res.status(400).json({ error }));
 };

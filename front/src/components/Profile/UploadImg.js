@@ -29,8 +29,6 @@ const UploadImg = ({ uid }) => {
         if (file) {
             data.append("image", file)
         }
-        console.log('data', data)
-        console.log('file', file)
 
         try {
             const res = await axios({
@@ -41,6 +39,7 @@ const UploadImg = ({ uid }) => {
                 data: data,
             });
             console.log('File uploaded', res.data);
+            window.location = '/profile'
         } catch (err) {
             console.error('Failed to upload file', err);
         }
@@ -49,7 +48,7 @@ const UploadImg = ({ uid }) => {
     return (
         <div className='profil-picture'>
             <div className='profil-img'>
-                <img className='profil-pic' src={userProfile} width='100px' alt="profil" />
+                <img className='profil-pic' src={userProfile ? userProfile : "./images/img/profile.jpg"} width='100px' alt="profil" />
             </div>
             image
             <form action="" onSubmit={handlePicture} className="upload-pic">

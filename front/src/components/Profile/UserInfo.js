@@ -23,7 +23,6 @@ const UserInfo = ({ uid }) => {
 				.then((res) => {
                     setFirstName(res.data.firstName)
                     setLastName(res.data.lastName)
-					console.log(res)
 				})
 				.catch((err) => {
 					console.log(err);
@@ -32,8 +31,6 @@ const UserInfo = ({ uid }) => {
 		getUserInfo();
 
 	}, [uid, firstName, lastName]);
-
-    console.log(firstName)
 
     const handleUpdate = async () => {
         if (firstNameUpdate || lastNameUpdate) {

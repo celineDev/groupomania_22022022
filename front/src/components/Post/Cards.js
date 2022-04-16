@@ -85,6 +85,7 @@ const Cards = ({ post }) => {
                 data: data,
             });
             console.log('File uploaded', res.data);
+            window.location = '/'
         } catch (err) {
             console.error('Failed to upload file', err);
         }
