@@ -59,6 +59,7 @@ const Cards = ({ post }) => {
                 if (res.err) {
                     console.log(res.err)
                 }
+                window.location = '/'
             })
             .catch((err) => {
                 console.log(err)

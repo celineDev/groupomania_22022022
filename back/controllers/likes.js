@@ -33,7 +33,7 @@ exports.like = (req, res, next) => {
                     models.Like.create(like)
                     .then(() => {
                         models.Post.update({ likes: postFound.likes +1 }, {where: { id: like.postId} })
-                        .then(() => res.status(200).json({ message: 'Like un message'}))
+                        .then(() => res.status(201).json({ message: 'Like un message'}))
                         .catch(error => res.status(400).json({ error: 'Une erreur c\'est produite' }));
                     })
                     .catch(error => res.status(400).json({ error: 'Message déjà liké' }));

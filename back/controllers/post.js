@@ -48,20 +48,32 @@ exports.getOnePost = (req, res, next) => {
 
 // update
 exports.modifyPost = (req, res, next) => {
+    console.log(req.file)
     if (req.file) {
         models.Post.findOne({ where: { id: req.params.id } })
         .then((post) => {
-            const fileName = post.imageUrl.split('/images/')[1];
-            fs.unlink(`images/${fileName}`, () => {
-                const postObject = {
-                    imageUrl: `${req.protocol}://${req.get('host')}/images/${
-                    req.file.filename
-                    }`,
-                };
-                models.Post.update(postObject, { where: { id: req.params.id } })
+            const newImage = post.imageUrl
+            if (newImage !== null) {
+                const fileName = post.imageUrl.split('/images/')[1];
+                fs.unlink(`images/${fileName}`, () => {
+                    const postObject = {
+                        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+                    };
+                    console.log('postObject', postObject)
+                    models.Post.update(postObject, { where: { id: req.params.id } })
+                    .then(() => res.status(200).json({ message: 'Post modifié !'}))
+                    .catch(error => res.status(400).json({ error }));
+                });
+            } else {
+                console.log('post.imageUrl', newImage)
+                const post = {
+                    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+                }
+                console.log('post', post)
+                models.Post.update(post, { where: { id: req.params.id } })
                 .then(() => res.status(200).json({ message: 'Post modifié !'}))
                 .catch(error => res.status(400).json({ error }));
-            });
+            }
         })
         .catch((error) => res.status(500).json({ error }));
     } else {

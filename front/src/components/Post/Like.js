@@ -41,10 +41,10 @@ const Like = ({ post }) => {
             if (res.err) {
                 console.log(res.err)
             }
-            if (!res.data) {
+            if (res.status === 200) {
                 setLiked(false)
                 setLikeCount(likeCount -1)
-            } else if (res.data) {
+            } else if (res.status === 201) {
                 setLiked(true)
                 setLikeCount(likeCount +1)
             }
