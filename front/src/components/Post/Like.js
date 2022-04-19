@@ -1,6 +1,7 @@
-import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
+import emptyHeart from './../../assets/icons/emptyHeart.svg'
 import { UserContext } from '../../UserContext';
+import { GET, POST } from '../../utils/axios'
 
 const Like = ({ post }) => {
     const uid = useContext(UserContext)
@@ -10,11 +11,7 @@ const Like = ({ post }) => {
     // number of likes
     useEffect(() => {
         const likeCount = async () => {
-            await axios({
-                method: "get",
-                url: `http://localhost:3000/api/post/${post.id}/like`,
-                withCredentials: true,
-            })
+            await GET(`api/post/${post.id}/like`)
             .then((res) => {
                 // setLikeCount(res.data.likes)
                 setLikeCount(res.data)
@@ -29,14 +26,7 @@ const Like = ({ post }) => {
     }, [uid, post.id])
 
     const handleLike = () => {
-        axios({
-            method: "post",
-            baseURL: `http://localhost:3000/api/post/${post.id}/like`,
-            withCredentials: true,
-            data: {
-                uid: uid,
-            },
-        })
+        POST(`api/post/${post.id}/like`, { uid })
         .then((res) => {
             if (res.err) {
                 console.log(res.err)
@@ -56,9 +46,8 @@ const Like = ({ post }) => {
 
     return (
         <div className='like-container'>
-			{liked === false && <img src="" onClick={handleLike} alt="like" />}
-			{liked && <img src="" onClick={handleLike} alt="unlike" />}
-            ♡
+			{liked === false && <img src={emptyHeart} width="25px" onClick={handleLike} alt="like" />}
+			{liked && <img src={emptyHeart} width="25px" onClick={handleLike} alt="unlike" />}
             <span>{likeCount}</span>
         </div>
     );

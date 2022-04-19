@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { GET } from '../../utils/axios'
 
 const UploadImg = ({ uid }) => {
     const [file, setFile] = useState('')
@@ -7,11 +8,7 @@ const UploadImg = ({ uid }) => {
 
     useEffect(() => {
         const getUserInfo = async () => {
-            await axios ({
-                method: "get",
-                url: `http://localhost:3000/api/auth/${uid}`,
-                withCredentials: true,
-            })
+            await GET (`api/auth/${uid}`)
             .then((res) => {
                 setUserProfile(res.data.profile)
             })
@@ -50,7 +47,6 @@ const UploadImg = ({ uid }) => {
             <div className='profil-img'>
                 <img className='profil-pic' src={userProfile ? userProfile : "./images/img/profile.jpg"} width='100px' alt="profil" />
             </div>
-            image
             <form action="" onSubmit={handlePicture} className="upload-pic">
                 <input
                     type="file"

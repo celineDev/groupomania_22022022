@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { POST } from '../../utils/axios'
 import LoginForm from './LoginForm'
 import eyeOpen from './../../assets/icons/eyeOpen.svg'
 import eyeClosed from './../../assets/icons/eyeClosed.svg'
@@ -33,12 +33,7 @@ const SignupForm = () => {
   const onSubmit = async data => {
     await wait(2000)
     try {
-        const res = await axios({
-            method: "post",
-            url: `http://localhost:3000/api/auth/signup`,
-            headers: { 'Content-Type': 'application/json' },
-            data: data,
-        });
+        const res = await POST(`api/auth/signup`, data);
         console.log('Enregistré', res.data);
         setFormSubmit(true)
     } catch (err) {

@@ -1,14 +1,11 @@
-import axios from 'axios';
 import React from 'react';
+import { DELETE } from '../../utils/axios'
+import trash from './../../assets/icons/trash.svg'
 
 const DeletePost = (props) => {
 
     const destroyPost = () => {
-        axios({
-            method: "delete",
-            baseURL: `http://localhost:3000/api/post/${props.id}`,
-            withCredentials: true,
-        })
+        DELETE(`api/post/${props.id}`)
         .then((res) => {
             console.log(res)
             if (res.err) {
@@ -29,7 +26,7 @@ const DeletePost = (props) => {
                 destroyPost()
             }
         }}>
-        Supprimer
+            <img src={trash} width="25px" alt="trash icon" />
         </div>
     );
 };

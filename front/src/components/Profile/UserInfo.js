@@ -1,6 +1,9 @@
-import axios from 'axios';
+import axios from 'axios'
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
+import { GET, DELETE } from '../../utils/axios'
+import edit from './../../assets/icons/edit.svg'
+import trash from './../../assets/icons/trash.svg'
 
 const UserInfo = ({ uid }) => {
     const [firstName, setFirstName] = useState();
@@ -12,14 +15,7 @@ const UserInfo = ({ uid }) => {
 
     useEffect(() => {
 		const getUserInfo = async () => {
-			await axios({
-				method: "get",
-				url: `http://localhost:3000/api/auth/${uid}`,
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				withCredentials: true,
-			})
+			await GET(`api/auth/${uid}`)
 				.then((res) => {
                     setFirstName(res.data.firstName)
                     setLastName(res.data.lastName)
@@ -44,6 +40,7 @@ const UserInfo = ({ uid }) => {
                 data: data,
             })
             .then((res) => {
+                 console.log(res)
                 console.log(res.err)
                 if (res.err) {
                     console.log(res.err)
@@ -56,6 +53,7 @@ const UserInfo = ({ uid }) => {
         }
     }
 
+
     const cancelPost=()=>{window.location = '/profile'}
 
     const removeCookie = (key) => {
@@ -65,11 +63,7 @@ const UserInfo = ({ uid }) => {
     }
 
     const deleteAccount = () => {
-        axios({
-            method: "delete",
-            baseURL: `http://localhost:3000/api/auth/${uid}`,
-            withCredentials: true,
-        })
+        DELETE(`api/auth/${uid}`)
         .then(() => {
             removeCookie("jwt")
             sessionStorage.clear()
@@ -104,9 +98,9 @@ const UserInfo = ({ uid }) => {
             </div>
             <div className="button-container">
                 <div className="edit-button">
-                    <button onClick={() => setIsUpdated(!isUpdated)}>
-                        <img src="" alt="edit icon" />
-                    </button>
+                    <div onClick={() => setIsUpdated(!isUpdated)}>
+                        <img src={edit} width="25px" alt="edit icon" />
+                    </div>
                 </div>
             </div>
             <div id="deleteAccount"
@@ -115,7 +109,7 @@ const UserInfo = ({ uid }) => {
 						deleteAccount();
 					}
 				}}>
-				Supprimer le compte
+                    <img src={trash} width="25px" alt="trash icon" />
 			</div>
         </div>
     );

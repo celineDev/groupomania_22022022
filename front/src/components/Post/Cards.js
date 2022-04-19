@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../UserContext';
-import { dateParser } from '../Utils';
+import { dateParser } from '../../utils/Functions';
 import Comment from './Comment';
 import DeletePost from './DeletePost';
 import Like from './Like';
+import { GET, PUT } from '../../utils/axios'
+import edit from './../../assets/icons/edit.svg'
+import chat from './../../assets/icons/chat.svg'
 
 // donnée passé en props quand on appelle à chaque fois la carte que l'on a
 const Cards = ({ post }) => {
@@ -22,48 +25,28 @@ const Cards = ({ post }) => {
 
     useEffect(() => {
         const getPosterInfo = async () => {
-            await axios({
-                method: "get",
-                url: `http://localhost:3000/api/auth/${post.UserId}`,
-                withCredentials: true,
-            })
-            .then((res) => {
-                setPosterPicture(res.data.profile)
-                setFirstName(res.data.firstName)
-                setLasttName(res.data.lastName)
-            })
-            .catch((err) => {
+            try {
+                const user = await GET(`api/auth/${post.UserId}`);
+                setPosterPicture(user.data.profile)
+                setFirstName(user.data.firstName)
+                setLasttName(user.data.lastName)
+            } catch(err) {
                 console.log(err)
-            })
+            }
         }
         getPosterInfo()
 
-        if(posterPicture);
     }, [posterPicture, post.UserId])
 
-    const updateItem = () => {
+    const updateItem = async () => {
         if (textUpdate) {
-            console.log('textupdate', textUpdate)
             const content = textUpdate
-            console.log('content', content)
-            axios({
-                method: 'put',
-                baseURL: `http://localhost:3000/api/post/${post.id}`,
-                withCredentials: true,
-                data: {
-					content,
-				},
-            })
-            .then((res) => {
-                console.log(res.err)
-                if (res.err) {
-                    console.log(res.err)
-                }
+            try {
+                await PUT(`api/post/${post.id}`, {content});
                 window.location = '/'
-            })
-            .catch((err) => {
+            } catch(err) {
                 console.log(err)
-            })
+            }
         }
         setIsUpdated(false);
     }
@@ -142,7 +125,7 @@ const Cards = ({ post }) => {
                 <div className="button-container">
                     <div className="edit-button">
                         <div onClick={() => setIsUpdated(!isUpdated)}>
-                            <img src="" alt="edit icon" />
+                            <img src={edit} width="25px" alt="edit icon" />
                         </div>
                         <DeletePost id={post.id} />
                     </div>
@@ -151,7 +134,7 @@ const Cards = ({ post }) => {
             <div className='card-footer'>
                 <Like post={post}/>
                 <div className='comment-icon'>
-                    <img src="" alt="comment" onClick={() => setShowComments(!showComments)} />
+                    <img src={chat} width="25px" alt="comment" onClick={() => setShowComments(!showComments)} />
                     {/* <span>{post.comment.length}</span> */}
                 </div>
                 {showComments && <Comment post={post} />}

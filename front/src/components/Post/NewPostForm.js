@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
+import { GET } from '../../utils/axios'
+import landscape from './../../assets/icons/landscape.svg'
 
 const NewPostForm = () => {
     const uid =  useContext(UserContext)
@@ -17,11 +19,7 @@ const NewPostForm = () => {
         const getUserInfo = async () => {
             if (uid !== null) {
                 const userId = uid.userId
-                await axios ({
-                    method: "get",
-                    url: `http://localhost:3000/api/auth/${userId}`,
-                    withCredentials: true,
-                })
+                await GET (`api/auth/${userId}`)
                 .then((res) => {
                     setFirstName(res.data.firstName)
                     setLastName(res.data.lastName)
@@ -93,12 +91,12 @@ const NewPostForm = () => {
                     onChange={(e) => setMessage(e.target.value)}
                     value={message}
                 ></textarea>
-                <img src={postPicture} alt="" className="img-preview" width="200px" />
+                <img src={postPicture} alt="preview" className="img-preview" width="200px" />
             </div>
 
             <div className='footer-form'>
                 <div className='icon'>
-                        <img src="" alt="icone paysage" />
+                        <img src={landscape} width="25px" alt="icone paysage" />
                         <input
                             type="file"
                             id='file-upload'

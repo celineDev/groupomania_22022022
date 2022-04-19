@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import Logout from './Log/Logout';
-import axios from 'axios'
+import { GET } from '../utils/axios'
 
 const Navigation = () => {
     const uid = useContext(UserContext);
@@ -13,11 +13,7 @@ const Navigation = () => {
         const getUserInfo = async () => {
             if (uid !== null) {
                 const userId = uid.userId
-                await axios ({
-                    method: "get",
-                    url: `http://localhost:3000/api/auth/${userId}`,
-                    withCredentials: true,
-                })
+                await GET (`api/auth/${userId}`)
                 .then((res) => {
                     setFirstName(res.data.firstName)
                 })
@@ -28,7 +24,6 @@ const Navigation = () => {
         }
         getUserInfo()
 
-        if(firstName);
     }, [uid, firstName])
 
 
@@ -59,7 +54,6 @@ const Navigation = () => {
                             <NavLink activeclassname="active" to='/profile'>
                                 <img src="" alt="login" />
                                 Se connecter
-                                <p>l---</p>
                             </NavLink>
                         </li>
                     </ul>

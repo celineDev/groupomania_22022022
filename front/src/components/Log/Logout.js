@@ -1,6 +1,7 @@
 import React from "react";
-import axios from "axios";
+import { POST } from '../../utils/axios'
 import cookie from "js-cookie";
+import logoutIcon from './../../assets/icons/logoutIcon.svg'
 
 const Logout = () => {
     const removeCookie = (key) => {
@@ -10,11 +11,7 @@ const Logout = () => {
     };
 
   const logout = async () => {
-        await axios({
-            method: "post",
-            url: `${process.env.REACT_APP_API_URL}api/auth/logout`,
-            withCredentials: true,
-        })
+        await POST(`api/auth/logout`)
         .then(() => {
             removeCookie("jwt")
             sessionStorage.clear()
@@ -26,7 +23,7 @@ const Logout = () => {
 
     return (
         <li onClick={logout}>
-            <img src="./img/icons/logout.svg" alt="logout" />
+            <img src={logoutIcon} title="se deconnecter" width="30px" alt="logout" />
         </li>
     );
 };

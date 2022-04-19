@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "./../../UserContext";
-import axios from "axios";
 import UploadImg from "./UploadImg";
 import UserInfo from "./UserInfo";
+import { GET } from '../../utils/axios'
 
 const UpdateProfile = () => {
 	const userId = useContext(UserContext);
@@ -15,14 +15,7 @@ const UpdateProfile = () => {
 	// user info
 	useEffect(() => {
 		const getUserInfo = async () => {
-			await axios({
-				method: "get",
-				url: `http://localhost:3000/api/auth/${uid}`,
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				withCredentials: true,
-			})
+			await GET(`api/auth/${uid}`)
 				.then((res) => {
 					setFirstName(res.data.firstName);
 					setLastName(res.data.lastName);

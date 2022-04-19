@@ -1,18 +1,14 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Cards from './Post/Cards';
-import { isEmpty } from './Utils';
+import { isEmpty } from '../utils/Functions';
+import { GET } from '../utils/axios'
 
 const Thread = () => {
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
         const getAllPost = async () => {
-            await axios({
-                method: "get",
-                url: "http://localhost:3000/api/post/",
-                withCredentials: true,
-            })
+            await GET("api/post/")
             .then((res) => {
                 setPosts(res.data)
             })
