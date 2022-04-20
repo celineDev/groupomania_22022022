@@ -7,7 +7,7 @@ import landscape from './../../assets/icons/landscape.svg'
 
 const NewPostForm = () => {
     const uid =  useContext(UserContext)
-    // const [userPicture, setUserPicture] = useState('')
+    const [userPicture, setUserPicture] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
 
@@ -23,6 +23,7 @@ const NewPostForm = () => {
                 .then((res) => {
                     setFirstName(res.data.firstName)
                     setLastName(res.data.lastName)
+                    setUserPicture(res.data.profile)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -75,8 +76,8 @@ const NewPostForm = () => {
     return (
         <div className='post-container' style={{border: "1px solid black"}}>
             <NavLink to="/profile">
-                <div className='user-info'>
-                    <img src="images/img/profile.jpg" width="50px" alt="profil de l'utilisateur" />
+                <div className='profil-img'>
+                    <img className='profil-pic' src={userPicture ? userPicture : "./images/img/profile.jpg"} width='50px' alt="profil de l'utilisateur" />
                     <p>{firstName} {lastName}</p>
                 </div>
             </NavLink>

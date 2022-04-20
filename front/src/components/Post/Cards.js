@@ -80,9 +80,7 @@ const Cards = ({ post }) => {
             <div className="header-card">
                 <div className="poster">
                     <img className="imageUrl" src={posterPicture} width="50px" alt="poster profile" />
-                    <h3>
-                        {firstName} {lastName}
-                    </h3>
+                    <h3>{firstName} {lastName}</h3>
                 </div>
                 <span>{dateParser(post.updatedAt)}</span>
             </div>
@@ -101,7 +99,7 @@ const Cards = ({ post }) => {
               </div>
             )}
 
-            {isUpdated === false && <img src={post.imageUrl} width="200px" alt="card-pic" className="card-pic" />}
+            {isUpdated === false && <img src={post.imageUrl} width="200px" alt="post illustration" className="card-pic" />}
             {isUpdated && (
               <div className="update-post">
                 <input
@@ -112,7 +110,7 @@ const Cards = ({ post }) => {
                     onChange={(e) => setFile(e.target.files[0])}
                 />
                 <br />
-                <img src={post.imageUrl} width="200px" alt="card-pic" className="card-pic" />
+                <img src={post.imageUrl} width="200px" alt="post illustration" className="card-pic" />
                 <div className="button-container">
                   <button className="btn" onClick={handlePicture}>
                     Valider modification

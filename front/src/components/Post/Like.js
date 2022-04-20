@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import emptyHeart from './../../assets/icons/emptyHeart.svg'
+import filledHeart from './../../assets/icons/filledHeart.svg'
 import { UserContext } from '../../UserContext';
 import { GET, POST } from '../../utils/axios'
+import { NavLink } from 'react-router-dom';
 
 const Like = ({ post }) => {
     const uid = useContext(UserContext)
@@ -46,8 +48,16 @@ const Like = ({ post }) => {
 
     return (
         <div className='like-container'>
-			{liked === false && <img src={emptyHeart} width="25px" onClick={handleLike} alt="like" />}
-			{liked && <img src={emptyHeart} width="25px" onClick={handleLike} alt="unlike" />}
+            {uid ? (
+                <div>
+                    {liked === false && <img src={emptyHeart} width="25px" onClick={handleLike} alt="like" />}
+                    {liked && <img src={filledHeart} width="25px" onClick={handleLike} alt="unlike" />}
+                </div>
+            ) : (
+                <NavLink activeclassname="active" to='/profile'>
+                    <img src={emptyHeart} width="25px" alt="login" />
+                </NavLink>
+            )}
             <span>{likeCount}</span>
         </div>
     );

@@ -83,24 +83,47 @@ exports.modifyPost = (req, res, next) => {
     }
 }
 
-// delete
+// delete post, post image and likes on post
 exports.deletePost = (req, res, next) => {
     models.Post.findOne({ where: { id: req.params.id } })
     .then(post => {
         if (post) {
-            if (post.imageUrl != null) {
-                const filename = post.imageUrl.split('/images/')[1];
-                fs.unlink(`images/${filename}`, () => {
+            const idPost = post.id
+            models.Like.findOne({ where: { postId: idPost }  })
+            .then((result) => {
+                if (result !== null) {
+                    models.Like.destroy({ where: { postId: idPost } })
+                    .then(() => {
+                        if (post.imageUrl != null) {
+                            const filename = post.imageUrl.split('/images/')[1];
+                            fs.unlink(`images/${filename}`, () => {
+                                models.Post.destroy({ where: { id: req.params.id } })
+                                .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+                                .catch(error => res.status(400).json({ error }));
+                            });
+                        } else {
+                        models.Post.destroy({ where: { id: req.params.id } })
+                        .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+                        .catch(error => res.status(400).json({ error }));
+                        }
+                    })
+                    .catch(error => res.status(400).json({ error }));
+                } else {
+                    if (post.imageUrl != null) {
+                        const filename = post.imageUrl.split('/images/')[1];
+                        fs.unlink(`images/${filename}`, () => {
+                            models.Post.destroy({ where: { id: req.params.id } })
+                            .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+                            .catch(error => res.status(400).json({ error }));
+                        });
+                    } else {
                     models.Post.destroy({ where: { id: req.params.id } })
                     .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
                     .catch(error => res.status(400).json({ error }));
-                });
-
-            } else {
-                models.Post.destroy({ where: { id: req.params.id } })
-                .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
-                .catch(error => res.status(400).json({ error }));
-            }
+                    }
+                }
+            })
+            .catch(error => res.status(500).json({ error }));
         } else {
             return res.status(404).json({ error: 'Ce post n\'existe pas'})
         }
