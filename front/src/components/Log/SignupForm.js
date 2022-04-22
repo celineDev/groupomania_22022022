@@ -33,8 +33,7 @@ const SignupForm = () => {
   const onSubmit = async data => {
     await wait(2000)
     try {
-        const res = await POST(`api/auth/signup`, data);
-        console.log('Enregistré', res.data);
+        await POST(`api/auth/signup`, data);
         setFormSubmit(true)
     } catch (err) {
       document.getElementById('error').innerText = 'Erreur email'
@@ -53,8 +52,7 @@ const SignupForm = () => {
             </>
           ) : (
           <form onSubmit={handleSubmit(onSubmit)} id="sign-up-form">
-          <label htmlFor="firstName">Prénom</label>
-          <br />
+            <h1>Inscription</h1>
           <input
               type="text"
               name='firstName'
@@ -62,12 +60,7 @@ const SignupForm = () => {
               placeholder='Prénom'
               {...register('firstName', { required: true })}
           />
-          <br />
-          <p className="error-msg error">{errors.firstName && <span>{errors.firstName.message}</span> }</p>
-          <br />
-
-          <label htmlFor="lastName">Nom</label>
-          <br />
+          <p className="error">{errors.firstName && <span>{errors.firstName.message}</span> }</p>
           <input
               type="text"
               name='lastName'
@@ -75,12 +68,7 @@ const SignupForm = () => {
               placeholder='Nom'
               {...register('lastName', { required: true })}
           />
-          <br />
-          <p className="error-msg error">{errors.lastName && <span>{errors.lastName.message}</span> }</p>
-          <br />
-
-          <label htmlFor="email">Email</label>
-          <br />
+          <p className="error">{errors.lastName && <span>{errors.lastName.message}</span> }</p>
           <input
               type="text"
               name='email'
@@ -88,26 +76,23 @@ const SignupForm = () => {
               placeholder='Email'
               {...register('email', { required: true })}
           />
-          <br />
-          <p className="error-msg error" id='error'>{errors.email && <span>{errors.email.message}</span> }</p>
-          <br />
 
-          <label htmlFor="password">Mot de passe</label>
-          <br />
-          <input
-              type={passwordIsVisible ? 'text' : 'password'}
-              name='password'
-              id='password'
-              placeholder='Mot de passe'
-              {...register('password', { required: true })}
-          />
-          <span onClick={() => setPasswordIsVisible((prevState) => !prevState)}>
-            <img src={passwordIsVisible ? eyeOpen : eyeClosed} width="32px" alt={passwordIsVisible ? 'oeil ouvert' : 'oeil fermé'} />
-          </span>
-          <br />
-          <p className="error-msg error">{errors.password && <span>{errors.password.message}</span> }</p>
-          <br />
-          <input type="submit" value="S'inscrire'"/>
+          <p className="error" id='error'>{errors.email && <span>{errors.email.message}</span> }</p>
+          <div className='form-password'>
+            <input
+                type={passwordIsVisible ? 'text' : 'password'}
+                name='password'
+                id='password'
+                placeholder='Mot de passe'
+                {...register('password', { required: true })}
+            />
+            <span className='form-eye' onClick={() => setPasswordIsVisible((prevState) => !prevState)}>
+              <img src={passwordIsVisible ? eyeOpen : eyeClosed} width="32" alt={passwordIsVisible ? 'oeil ouvert' : 'oeil fermé'} />
+            </span>
+          </div>
+          <p className="error">{errors.password && <span>{errors.password.message}</span> }</p>
+
+          <input type="submit" value="S'inscrire"/>
       </form>
       )}
     </>

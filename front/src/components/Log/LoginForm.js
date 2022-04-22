@@ -23,9 +23,7 @@ const LoginForm = () => {
     const onSubmit = async data => {
       try {
           const res = await POST(`api/auth/login`, data);
-          console.log('Enregistré', res.data);
           const userId = res.data
-          console.log(userId)
           sessionStorage.setItem('user', JSON.stringify(userId))
           window.location = "/";
       } catch (err) {
@@ -36,8 +34,7 @@ const LoginForm = () => {
 
     return (
       <form action="" onSubmit={handleSubmit(onSubmit)} id="login-form">
-          <label htmlFor="email">Email</label>
-          <br />
+        <h1>Connexion</h1>
           <input
               type="text"
               name='email'
@@ -45,24 +42,20 @@ const LoginForm = () => {
               placeholder='Email'
               {...register('email', { required: true })}
           />
-          <br />
-          <p className="error-msg error">{errors.email ? <span>{errors.email.message} </span> : null }</p>
-
-          <label htmlFor="password">Mot de passe</label>
-          <br />
-          <input
-              type={passwordIsVisible ? 'text' : 'password'}
-              name='password'
-              id='password'
-              placeholder='Mot de passe'
-              {...register('password', { required: true })}
-          />
-          <span onClick={() => setPasswordIsVisible((prevState) => !prevState)}>
-              <img src={passwordIsVisible ? eyeOpen : eyeClosed} width="32px" alt={passwordIsVisible ? 'oeil ouvert' : 'oeil fermé'} />
-          </span>
-          <br />
-          <p className="error-msg error" id='error'>{errors.password ? <span>{errors.password.message}</span>: null }</p>
-          <br />
+          <p className="error">{errors.email ? <span>{errors.email.message} </span> : null }</p>
+          <div className='form-password'>
+            <input
+                type={passwordIsVisible ? 'text' : 'password'}
+                name='password'
+                id='password'
+                placeholder='Mot de passe'
+                {...register('password', { required: true })}
+            />
+            <span className='form-eye' onClick={() => setPasswordIsVisible((prevState) => !prevState)}>
+                <img src={passwordIsVisible ? eyeOpen : eyeClosed} width="32" alt={passwordIsVisible ? 'oeil ouvert' : 'oeil fermé'} />
+            </span>
+          </div>
+          <p className="error" id='error'>{errors.password ? <span>{errors.password.message}</span>: null }</p>
 
           <input type="submit" value="Se connecter"/>
       </form>

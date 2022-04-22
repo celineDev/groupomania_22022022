@@ -1,0 +1,59 @@
+/* réglage généraux
+font
+variables
+*
+...
+ */
+ /* variables */
+:root {
+    --primary-color: #FFD7D7;
+    --secondary-color: #FD0D00;
+    --font-color: #1A1A1A;
+    --grey: #F2F2F2;
+    --shadow: #d1d1d1;
+    --darkShadow: #b9b9b9;
+}
+
+*, *::before, *::after {
+    /* box-sizing: inherit; */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    min-height: 100vh;
+    line-height: 32px;
+    font-weight: 400;
+    color: var(--font-color);
+    background-color: var(--grey);
+}
+
+h1, h2 {
+
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4.375rem;
+}
+
+li {
+    list-style: none;
+}
+
+@media screen and (max-width: 688px) {}
+@media screen and (max-width: 992px) {}
+@media screen and (max-width: 1312px) {}

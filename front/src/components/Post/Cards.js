@@ -12,7 +12,7 @@ import chat from './../../assets/icons/chat.svg'
 // donnée passé en props quand on appelle à chaque fois la carte que l'on a
 const Cards = ({ post }) => {
     const uid = useContext(UserContext)
-    // const [isAdmin, setIsAdmin] = useState('')
+    const [isAdmin, setIsAdmin] = useState('')
 
     const [posterPicture, setPosterPicture] = useState('')
     const [firstName, setFirstName] = useState('')
@@ -30,6 +30,7 @@ const Cards = ({ post }) => {
                 setPosterPicture(user.data.profile)
                 setFirstName(user.data.firstName)
                 setLasttName(user.data.lastName)
+
             } catch(err) {
                 console.log(err)
             }
@@ -37,6 +38,26 @@ const Cards = ({ post }) => {
         getPosterInfo()
 
     }, [posterPicture, post.UserId])
+
+    useEffect(() => {
+        const isAdmin = async () => {
+            try {
+                if (uid !== null) {
+                    const userId = uid.userId
+                    await GET(`api/auth/${userId}`);
+                    if (userId === 1) {
+                        setIsAdmin(true)
+                    } else {
+                        setIsAdmin(false)
+                    }
+                }
+            } catch(err) {
+                console.log(err)
+            }
+        }
+        isAdmin()
+
+    }, [uid, isAdmin])
 
     const updateItem = async () => {
         if (textUpdate) {
@@ -57,9 +78,6 @@ const Cards = ({ post }) => {
         if (file) {
             data.append("image", file)
         }
-        console.log('data', data)
-        console.log('file', file)
-
         try {
             const res = await axios({
                 method: "put",
@@ -79,7 +97,7 @@ const Cards = ({ post }) => {
         <li style={{border: '1px solid black'}} className="card-container" key={post.post_id} id={post.post_id}>
             <div className="header-card">
                 <div className="poster">
-                    <img className="imageUrl" src={posterPicture} width="50px" alt="poster profile" />
+                    <img className="imageUrl" src={posterPicture} width="50" alt="poster profile" />
                     <h3>{firstName} {lastName}</h3>
                 </div>
                 <span>{dateParser(post.updatedAt)}</span>
@@ -99,7 +117,7 @@ const Cards = ({ post }) => {
               </div>
             )}
 
-            {isUpdated === false && <img src={post.imageUrl} width="200px" alt="post illustration" className="card-pic" />}
+            {isUpdated === false && <img src={post.imageUrl} width="200" alt="post illustration" className="card-pic" />}
             {isUpdated && (
               <div className="update-post">
                 <input
@@ -110,7 +128,7 @@ const Cards = ({ post }) => {
                     onChange={(e) => setFile(e.target.files[0])}
                 />
                 <br />
-                <img src={post.imageUrl} width="200px" alt="post illustration" className="card-pic" />
+                <img src={post.imageUrl} width="200" alt="post illustration" className="card-pic" />
                 <div className="button-container">
                   <button className="btn" onClick={handlePicture}>
                     Valider modification
@@ -119,20 +137,55 @@ const Cards = ({ post }) => {
               </div>
             )}
 
-            {uid ? uid.userId === post.UserId ?  (
+            {/* {uid ? (uid.userId === post.UserId) || isAdmin ?  (
                 <div className="button-container">
                     <div className="edit-button">
                         <div onClick={() => setIsUpdated(!isUpdated)}>
-                            <img src={edit} width="25px" alt="edit icon" />
+                            <img src={edit} width="25" alt="edit icon" />
                         </div>
-                        <DeletePost id={post.id} />
+                        {(uid.userId === post.UserId) || isAdmin ? (
+                        <div>
+                            <DeletePost id={post.id} />
+                        </div> ):(null)}
                     </div>
                 </div>
-            ) :  null  : null }
+            ) :  null  : null  } */}
+
+
+
+<div className="button-container">
+            {uid ? (uid.userId === post.UserId) ?  (
+                    <div className="edit-button">
+                        <div onClick={() => setIsUpdated(!isUpdated)}>
+                            <img src={edit} width="25" alt="edit icon" />
+                        </div>
+                    </div>
+                        ) :  null  : null  }
+                    <div>
+                        {uid ? (uid.userId === post.UserId) || isAdmin ? (
+                        <div>
+                            <DeletePost id={post.id} />
+                        </div> 
+                        ):null : null}
+
+                    </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
             <div className='card-footer'>
                 <Like post={post}/>
                 <div className='comment-icon'>
-                    <img src={chat} width="25px" alt="comment" onClick={() => setShowComments(!showComments)} />
+                    <img src={chat} width="25" alt="comment" onClick={() => setShowComments(!showComments)} />
                     {/* <span>{post.comment.length}</span> */}
                 </div>
                 {showComments && <Comment post={post} />}
