@@ -9,14 +9,14 @@ const Home = () => {
     const uid = useContext(UserContext);
 
     return (
-        <div className='home'>
+        <div className='container'>
             <Navigation />
-            <div className='main'>
-                <div className='home-header'>
+            <main className='main_container'>
+                <section className='home-header'>
                      {uid ? <NewPostForm /> : <Log login={true} signup={false} />}
-                 </div>
+                 </section>
                 <Thread />
-            </div>
+            </main>
         </div>
     );
 };

@@ -8,6 +8,7 @@ import { GET } from '../utils/axios'
 const Navigation = () => {
     const uid = useContext(UserContext);
     const [firstName, setFirstName] = useState()
+    const [profilePicture, setProfilePicture] = useState()
 
     useEffect(() => {
         const getUserInfo = async () => {
@@ -16,6 +17,7 @@ const Navigation = () => {
                 await GET (`api/auth/${userId}`)
                 .then((res) => {
                     setFirstName(res.data.firstName)
+                    setProfilePicture(res.data.profile)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -30,30 +32,26 @@ const Navigation = () => {
     return (
         <header className="navigation">
             <nav className='nav-container'>
-                <ul className='logo'>
-                    <li>
-                        <NavLink activeclassname="active" to="/">
-                            <img src="./images/logos/icon-left-font-sm.png" alt="logo groupomania" />
-                        </NavLink>
-                    </li>
-                </ul>
+                <NavLink className="inactive" activeclassname="active" to="/">
+                    <img className='logo' src="./images/logos/icon-left-font-sm.png" alt="logo groupomania" />
+                </NavLink>
                 {uid ? (
-                    <ul>
-                        {/* <li></li> li vide */}
-                        <li className='welcome'>
-                            <NavLink to='/profile'>
-                                <h5>Bienvenue {firstName}</h5>
+                    <ul className='nav-list'>
+                        <li className='nav-welcome' title='Compte utilidateur'>
+                            <NavLink className="inactive" to='/profile'>
+                                <figure className='nav-figure'>
+                                    <img className='nav-profile' src={profilePicture} alt="user" />
+                                </figure>
+                                <p className='nav-p'>{firstName}</p>
                             </NavLink>
                         </li>
                         <Logout />
                     </ul>
                 ) : (
                     <ul>
-                        {/* <li></li> */}
-                        <li>
-                            <NavLink activeclassname="active" to='/profile'>
-                                <img src="" alt="login" />
-                                Se connecter
+                        <li className='nav-bye'>
+                            <NavLink className="inactive" activeclassname="active" to='/profile'>
+                                Connexion
                             </NavLink>
                         </li>
                     </ul>

@@ -1,0 +1,84 @@
+header.navigation {
+    background-color: #fff;
+    box-shadow: 0 0 0.5rem #919191;
+    margin-bottom: 100px;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    padding: 15px 15px;
+    max-width: 1300px;
+    height: 70px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    width: 250px;
+}
+
+/* profile picture and first name  */
+ .nav-list {
+    display: flex;
+}
+
+.nav-welcome {
+    height: 50px;
+}
+
+.nav-figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    transition: 200ms;
+}
+
+.nav-figure:hover {
+    background-color: var(--grey)
+}
+
+.nav-profile {
+    width: 50px;
+    border-radius: 25px;
+}
+
+/* inactive anchor */
+.inactive {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    border-radius: 25px;
+    margin-right: 20px;
+    color : var(--font-color);
+    font-weight: bold;
+    transition: 200ms;
+}
+
+.nav-bye > .inactive {
+    padding: 0 15px;
+}
+
+.inactive:hover {
+    background-color: var(--grey)
+}
+
+.nav-container > .inactive:hover {
+    background-color: transparent
+}
+
+.nav-p{
+    margin: 0 15px 0 10px;
+}
+
+@media screen and (max-width: 688px) {
+    .nav-p{
+        display: none;
+    }
+}
