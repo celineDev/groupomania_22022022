@@ -9,8 +9,6 @@ exports.createPost = async(req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.JWT_TOKEN);
     const userId = decodedToken.userId;
 
-    console.log(req.file)
-
     models.User.findOne({ where: { id: userId } })
     .then((userFound) => {
         if (userFound) {
@@ -19,7 +17,6 @@ exports.createPost = async(req, res, next) => {
                 content: req.body.content,
                 imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`: req.body.imageUrl,
             })
-            console.log('post', post)
             post.save()
             .then(() => res.status(201).json({ message: 'Post créé !' }))
             .catch(error => res.status(400).json({ error: 'Le post avec image n\'a pas pu être créé !' }));
@@ -48,7 +45,6 @@ exports.getOnePost = (req, res, next) => {
 
 // update
 exports.modifyPost = (req, res, next) => {
-    console.log(req.file)
     if (req.file) {
         models.Post.findOne({ where: { id: req.params.id } })
         .then((post) => {
@@ -59,17 +55,14 @@ exports.modifyPost = (req, res, next) => {
                     const postObject = {
                         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
                     };
-                    console.log('postObject', postObject)
                     models.Post.update(postObject, { where: { id: req.params.id } })
                     .then(() => res.status(200).json({ message: 'Post modifié !'}))
                     .catch(error => res.status(400).json({ error }));
                 });
             } else {
-                console.log('post.imageUrl', newImage)
                 const post = {
                     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
                 }
-                console.log('post', post)
                 models.Post.update(post, { where: { id: req.params.id } })
                 .then(() => res.status(200).json({ message: 'Post modifié !'}))
                 .catch(error => res.status(400).json({ error }));

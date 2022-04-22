@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 // import package file system (node), allow to modify/delete files
 const fs = require('fs');
 
+// like/unlike post
 exports.like = (req, res, next) => {
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.JWT_TOKEN);
@@ -47,6 +48,7 @@ exports.like = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 }
 
+// number of like for one post
 exports.likeCount = (req, res, next) => {
     models.Post.findOne({ where: {id: req.params.id} })
     .then(posts => res.status(200).json(posts.likes))

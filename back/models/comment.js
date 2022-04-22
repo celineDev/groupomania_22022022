@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Comment.init({
-    id_user: DataTypes.INTEGER,
-    id_post: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
+    postId: DataTypes.INTEGER,
     comment: DataTypes.TEXT
   }, {
     freezeTableName: true,

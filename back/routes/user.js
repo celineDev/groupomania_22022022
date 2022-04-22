@@ -4,12 +4,12 @@ const router = express.Router();
 const userCtrl = require('../controllers/user');
 const multer = require('../middleware/multer-config')
 
-// auth
+// authentification
 router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.post('/logout', userCtrl.logout);
 
-// user
+// user crud
 router.get('/', userCtrl.getAllUsers);
 router.get('/:id', userCtrl.getOneUser);
 router.put('/:id', multer, userCtrl.updateUser);

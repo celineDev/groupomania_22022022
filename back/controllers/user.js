@@ -20,10 +20,9 @@ exports.signup = (req, res, next) => {
                 lastName: req.body.lastName,
                 email: req.body.email,
                 password: hash,
-                profile: `${req.protocol}://${req.get('host')}/images/default/profile.jpg`,
+                profile: `${req.protocol}://${req.get('host')}/images/default/profile.png`,
                 isAdmin: 0
             });
-            console.log(user)
             user.save()
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
                 .catch(error => res.status(400).json({ error: 'L\'utilisateur n\'a pas pu être créé !' }));
@@ -82,13 +81,12 @@ exports.getOneUser = async(req, res, next) => {
 }
 
 exports.updateUser = (req, res, next) => {
-    console.log(req.file)
     if (req.file) {
         models.User.findOne({ where: { id: req.params.id } })
         .then((user) => {
             const fileName = user.profile.split('/images/')[1];
             // keep defaut profile picture
-            if (fileName !== "default/profile.jpg") {
+            if (fileName !== "default/profile.png") {
                 fs.unlink(`images/${fileName}`, () => {
                     const userObject = {
                         profile: `${req.protocol}://${req.get('host')}/images/${
@@ -103,7 +101,6 @@ exports.updateUser = (req, res, next) => {
                 const user = {
                     profile: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 }
-                console.log(user)
                 models.User.update(user, { where: { id: req.params.id } })
                     .then(() => res.status(201).json({ message: 'Utilisateur modifié !' }))
                     .catch(error => res.status(400).json({ error: 'L\'utilisateur n\'a pas pu être modifié !' }));
