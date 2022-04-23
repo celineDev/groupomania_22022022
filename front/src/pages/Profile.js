@@ -14,7 +14,6 @@ const Profile = () => {
             ) : (
             <div className='log-container'>
             <Log login={true} signup={false} />
-            <h1>Profile</h1>
             </div>
             )}
         </div>

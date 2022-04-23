@@ -1,3 +1,6 @@
 @import "./base/_settings";
+
 @import "./components/_navigations.css";
 @import "./components/_log.css";
+
+@import "./pages/_profile.css";
