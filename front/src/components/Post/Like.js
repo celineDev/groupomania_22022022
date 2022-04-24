@@ -47,19 +47,19 @@ const Like = ({ post }) => {
     }
 
     return (
-        <div className='like-container'>
+        <figure className='like-container'>
             {uid ? (
                 <div>
-                    {liked === false && <img src={emptyHeart} width="25px" onClick={handleLike} alt="like" />}
-                    {liked && <img src={filledHeart} width="25px" onClick={handleLike} alt="unlike" />}
+                    {liked === false && <img src={emptyHeart} width="25" onClick={handleLike} alt="bouton like" />}
+                    {liked && <img src={filledHeart} width="25" onClick={handleLike} alt="bouton unlike" />}
                 </div>
             ) : (
                 <NavLink activeclassname="active" to='/profile'>
-                    <img src={emptyHeart} width="25px" alt="login" />
+                    <img src={emptyHeart} width="25" alt="login" />
                 </NavLink>
             )}
-            <span>{likeCount}</span>
-        </div>
+            <figcaption>{likeCount}</figcaption>
+        </figure>
     );
 };
 

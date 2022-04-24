@@ -14,6 +14,8 @@ variables
     --grey: #F2F2F2;
     --shadow: #d1d1d1;
     --darkShadow: #b9b9b9;
+
+    --font-family : 'Raleway', sans-serif
 }
 
 *, *::before, *::after {
@@ -29,16 +31,12 @@ html {
 }
 
 body {
-    font-family: 'Raleway', sans-serif;
+    font-family: var(--font-family);
     min-height: 100vh;
     line-height: 32px;
     font-weight: 400;
     color: var(--font-color);
     background-color: var(--grey);
-}
-
-h1, h2 {
-
 }
 
 a {
@@ -50,6 +48,11 @@ h1 {
     justify-content: center;
     align-items: center;
     height: 4.375rem;
+    font-size: 28px;
+}
+
+h2 {
+    font-size: 20px;
 }
 
 li {

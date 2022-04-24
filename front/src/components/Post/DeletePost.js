@@ -21,13 +21,13 @@ const DeletePost = (props) => {
     }
 
     return (
-        <div onClick={() => {
+        <figure className='trash-icon' onClick={() => {
             if (window.confirm("Supprimer cet article ?")) {
                 destroyPost()
             }
         }}>
-            <img src={trash} width="25px" alt="trash icon" />
-        </div>
+            <img title='Supprimer' src={trash} width="25" alt="trash icon" />
+        </figure>
     );
 };
 

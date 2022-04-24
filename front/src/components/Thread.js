@@ -20,15 +20,13 @@ const Thread = () => {
     }, [])
 
     return (
-        <div className='thread-container'>
-            <ul>
-                {!isEmpty(posts[0]) &&
-                    posts.map((post) => {
-                        return <Cards post={post} key={post.id} />;
-                    })
-                }
-            </ul>
-        </div>
+        <section className='thread-container'>
+            {!isEmpty(posts[0]) &&
+                posts.map((post) => {
+                    return <Cards post={post} key={post.id} />;
+                })
+            }
+        </section>
     );
 };
 

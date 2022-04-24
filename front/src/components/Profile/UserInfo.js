@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import { GET, DELETE } from '../../utils/axios'
 import edit from './../../assets/icons/edit.svg'
-import trash from './../../assets/icons/trash.svg'
 
 const UserInfo = ({ uid }) => {
     const [firstName, setFirstName] = useState();
@@ -40,11 +39,7 @@ const UserInfo = ({ uid }) => {
                 data: data,
             })
             .then((res) => {
-                 console.log(res)
-                console.log(res.err)
-                if (res.err) {
-                    console.log(res.err)
-                }
+                console.log(res)
                 window.location = '/profile'
             })
             .catch((err) => {
@@ -53,8 +48,9 @@ const UserInfo = ({ uid }) => {
         }
     }
 
-
-    const cancelPost=()=>{window.location = '/profile'}
+    const cancelPost=()=>{
+        window.location = '/profile'
+    }
 
     const removeCookie = (key) => {
         if (window !== "undefined") {
@@ -73,45 +69,53 @@ const UserInfo = ({ uid }) => {
     }
 
     return (
-        <div className='user-info'>
-            <div className="firstname-update">
-                {isUpdated === false && <p>{firstName}</p>}
-                {isUpdated === false && <p>{lastName}</p>}
-                {isUpdated && (
-                    <div className="update-post">
-                        <input
-                            type="text"
-                            defaultValue={firstName}
-                            onChange={(e) => setFirstNameUpdate(e.target.value)}
-                        />
-                        <input
-                            type="text"
-                            defaultValue={lastName}
-                            onChange={(e) => setLastNameUpdate(e.target.value)}
-                        />
-                        <div className="button-container">
-                            <button className='cancel' onClick={(e) => cancelPost()}>Annuler</button>
-                            <button className="btn" onClick={handleUpdate}>Valider modification</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-            <div className="button-container">
-                <div className="edit-button">
-                    <div onClick={() => setIsUpdated(!isUpdated)}>
-                        <img src={edit} width="25px" alt="edit icon" />
+        <form className="user-update">
+            {isUpdated === false &&
+                <input
+                type="text"
+                placeholder='Prénom'
+                defaultValue={firstName}
+                disabled="disabled"
+            />
+            }
+            {isUpdated === false &&
+            <input
+                type="text"
+                placeholder='Nom'
+                defaultValue={lastName}
+                disabled="disabled"
+            />
+            }
+            {isUpdated && (
+                <div className="update-post">
+                    <input
+                        type="text"
+                        defaultValue={firstName}
+                        onChange={(e) => setFirstNameUpdate(e.target.value)}
+                    />
+                    <input
+                        type="text"
+                        defaultValue={lastName}
+                        onChange={(e) => setLastNameUpdate(e.target.value)}
+                    />
+                    <div className="button-container">
+                        <button className='cancel-btn' onClick={(e) => cancelPost()}>Annuler</button>
+                        <button className="validate-btn" onClick={handleUpdate}>Valider modification</button>
                     </div>
                 </div>
-            </div>
-            <div id="deleteAccount"
+            )}
+            <figure className="edit-button" onClick={() => setIsUpdated(!isUpdated)}>
+                <img title='modifier' src={edit} width="25" alt="edit icon" />
+            </figure>
+            <p id="deleteAccount"
                 onClick={() => {
-					if (window.confirm("Voulez vous désactiver votre compte?")) {
-						deleteAccount();
-					}
-				}}>
-                    <img src={trash} width="25px" alt="trash icon" />
-			</div>
-        </div>
+                    if (window.confirm("Voulez vous supprimer votre compte?")) {
+                        deleteAccount();
+                    }
+                }}>
+                    Supprimer le compte
+            </p>
+        </form>
     );
 };
 

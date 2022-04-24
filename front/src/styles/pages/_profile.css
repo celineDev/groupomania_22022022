@@ -25,9 +25,8 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
     height: 50px;
+    margin-top: 5px;
 }
-
-
 
 .validate-btn {background-color: var(--primary-color);}
 .validate-btn:hover {background-color: var(--dark-primary-color);}
@@ -36,7 +35,7 @@
 .edit-button {
     cursor: pointer;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 #deleteAccount {

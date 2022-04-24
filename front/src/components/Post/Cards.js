@@ -8,6 +8,7 @@ import Like from './Like';
 import { GET, PUT } from '../../utils/axios'
 import edit from './../../assets/icons/edit.svg'
 import chat from './../../assets/icons/chat.svg'
+import uploads from './../../assets/icons/uploads.svg'
 
 // donnée passé en props quand on appelle à chaque fois la carte que l'on a
 const Cards = ({ post }) => {
@@ -93,105 +94,78 @@ const Cards = ({ post }) => {
         }
     }
 
+    const cancelPost=()=>{
+        window.location = '/'
+    }
+
     return (
-        <li style={{border: '1px solid black'}} className="card-container" key={post.post_id} id={post.post_id}>
-            <div className="header-card">
-                <div className="poster">
-                    <img className="imageUrl" src={posterPicture} width="50" alt="poster profile" />
-                    <h3>{firstName} {lastName}</h3>
-                </div>
-                <span>{dateParser(post.updatedAt)}</span>
-            </div>
-            {isUpdated === false && <p>{post.content}</p>}
-            {isUpdated && (
-              <div className="update-post">
-                <textarea
-                  defaultValue={post.content}
-                  onChange={(e) => setTextUpdate(e.target.value)}
-                />
-                <div className="button-container">
-                  <button className="btn" onClick={updateItem}>
-                    Valider modification
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {isUpdated === false && <img src={post.imageUrl} width="200" alt="post illustration" className="card-pic" />}
-            {isUpdated && (
-              <div className="update-post">
-                <input
-                    type="file"
-                    id='file'
-                    name='file'
-                    accept='.jpg, .jpeg, .png'
-                    onChange={(e) => setFile(e.target.files[0])}
-                />
-                <br />
-                <img src={post.imageUrl} width="200" alt="post illustration" className="card-pic" />
-                <div className="button-container">
-                  <button className="btn" onClick={handlePicture}>
-                    Valider modification
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* {uid ? (uid.userId === post.UserId) || isAdmin ?  (
-                <div className="button-container">
-                    <div className="edit-button">
-                        <div onClick={() => setIsUpdated(!isUpdated)}>
-                            <img src={edit} width="25" alt="edit icon" />
-                        </div>
-                        {(uid.userId === post.UserId) || isAdmin ? (
-                        <div>
-                            <DeletePost id={post.id} />
-                        </div> ):(null)}
+        <article className="card-container" key={post.post_id} id={post.post_id}>
+            <figure className="card-header">
+                <img className="poster-profile" src={posterPicture} alt="poster profile" />
+                <figcaption>
+                    <h2>{firstName} {lastName}</h2>
+                    <p>{dateParser(post.updatedAt)}</p>
+                </figcaption>
+            </figure>
+            <div className='cart-main'>
+                {isUpdated === false && <p>{post.content}</p>}
+                {isUpdated && (
+                <div className="update-post">
+                    <textarea
+                    defaultValue={post.content}
+                    onChange={(e) => setTextUpdate(e.target.value)}
+                    />
+                    <div className="button-container">
+                        <button className='cancel-btn' onClick={(e) => cancelPost()}>Annuler</button>
+                        <button className="validate-btn" onClick={updateItem}>Valider modification</button>
                     </div>
                 </div>
-            ) :  null  : null  } */}
+                )}
 
+                {isUpdated === false && <img src={post.imageUrl} alt="post illustration" className="card-pic" />}
+                {isUpdated && (
+                <div className="update-post">
+                    <img src={post.imageUrl} alt="post illustration" className="card-pic" />
+                    <input
+                        type="file"
+                        id='file'
+                        name='file'
+                        accept='.jpg, .jpeg, .png'
+                        onChange={(e) => setFile(e.target.files[0])}
+                    />
+                    <label className='file-input__label' htmlFor="file">
+                        <img className='svg' src={uploads} alt="upload" />
+                        Modifier l'image
+                    </label>
+                    <div className="button-container">
+                        <button className='cancel-btn' onClick={(e) => cancelPost()}>Annuler</button>
+                        <button className="validate-btn" onClick={handlePicture}>Valider modification</button>
+                    </div>
+                </div>
+                )}
+            </div>
 
-
-<div className="button-container">
+            <div className="btn-container">
             {uid ? (uid.userId === post.UserId) ?  (
-                    <div className="edit-button">
-                        <div onClick={() => setIsUpdated(!isUpdated)}>
-                            <img src={edit} width="25" alt="edit icon" />
-                        </div>
-                    </div>
-                        ) :  null  : null  }
-                    <div>
-                        {uid ? (uid.userId === post.UserId) || isAdmin ? (
-                        <div>
-                            <DeletePost id={post.id} />
-                        </div> 
-                        ):null : null}
-
-                    </div>
+                <figure title='Modifier' className="edit-button" onClick={() => setIsUpdated(!isUpdated)}>
+                    <img src={edit} width="25" alt="edit icon" />
+                </figure>
+                ) :  null  : null  }
+                {uid ? (uid.userId === post.UserId) || isAdmin ? (
+                    <DeletePost id={post.id} />
+                ):null : null}
             </div>
-
-
-
-
-
-
-
-
-
-
-
 
             <div className='card-footer'>
                 <Like post={post}/>
-                <div className='comment-icon'>
+                <figure className='comment-icon'>
                     <img src={chat} width="25" alt="comment" onClick={() => setShowComments(!showComments)} />
-                    {/* <span>{post.comment.length}</span> */}
-                </div>
+                    {/* <figcaption>{post.comment.length}</figcaption> */}
+                </figure>
                 {showComments && <Comment post={post} />}
                 {/* <Comment /> */}
             </div>
-        </li>
+        </article>
     );
 };
 

@@ -2,5 +2,6 @@
 
 @import "./components/_navigations.css";
 @import "./components/_log.css";
+@import "./components/_cards.css";
 
 @import "./pages/_profile.css";
