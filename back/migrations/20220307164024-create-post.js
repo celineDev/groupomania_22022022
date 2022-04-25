@@ -14,7 +14,8 @@ module.exports = {
         references: {
           model: 'User',
           key: 'id'
-        }
+        },
+        onDelete: 'cascade'
       },
       content: {
         type: Sequelize.TEXT,
