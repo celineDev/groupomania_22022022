@@ -117,12 +117,18 @@ exports.updateUser = (req, res, next) => {
 exports.deleteUser = async(req, res, next) => {
     models.User.findOne({ id: req.params.id })
     .then(user => {
-      const filename = user.profile.split('/images/')[1];
-      fs.unlink(`images/${filename}`, () => {
-        models.User.destroy({  where: { id: req.params.id } })
-          .then(() => res.status(200).json({ message: 'Compte utilisateur supprimé !'}))
-          .catch(error => res.status(400).json({ error }));
-      });
+        const filename = user.profile.split('/images/')[1];
+        if (filename !== "default/profile.png") {
+            fs.unlink(`images/${filename}`, () => {
+            models.User.destroy({ where: { id: req.params.id } })
+            .then(() => res.status(200).json({ message: 'Compte utilisateur supprimé !'}))
+            .catch(error => res.status(400).json({ error }));
+            });
+        } else {
+            models.User.destroy({  where: { id: req.params.id } })
+            .then(() => res.status(200).json({ message: 'Compte utilisateur supprimé !'}))
+            .catch(error => res.status(400).json({ error }));
+        }
     })
     .catch(error => res.status(500).json({ error }));
 };

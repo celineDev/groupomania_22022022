@@ -10,9 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Post.hasMany(models.Comment, { onDelete: 'cascade', hooks: true }),
+      Post.hasMany(models.Like, { onDelete: 'cascade', hooks: true }),
+      Post.belongsTo(models.User, { onDelete: 'cascade', foreignKey: 'userId', as: 'user' })
     }
   }
+
   Post.init({
     content: DataTypes.TEXT,
     imageUrl: DataTypes.STRING,
@@ -23,16 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Post',
   });
-
-  Post.associate = function (models) {
-    Post.hasMany(models.Comment),
-    Post.hasMany(models.Like),
-    Post.belongsTo(models.User), {
-      foreignKey: {
-        allowNull: false
-      }
-    }
-  };
 
   return Post;
 };

@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.Like, { onDelete: 'cascade', hooks: true });
+      User.hasMany(models.Post, { onDelete: 'cascade', hooks: true }),
+      User.hasMany(models.Comment, { onDelete: 'cascade', hooks: true });
     }
   }
   User.init({
@@ -25,12 +27,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
-
-  User.associate = function (models) {
-    User.hasMany(models.Post),
-    User.hasMany(models.Comment);
-    User.hasMany(models.Like);
-  };
 
   return User;
 };
