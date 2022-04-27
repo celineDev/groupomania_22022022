@@ -3,7 +3,7 @@
     grid-gap: 20px;
 }
 
-.card-container {
+.card-container, .post-container {
     background-color: #fff;
     box-shadow: 2px 4px 8px var(--darkShadow);
     border-radius: 20px;
@@ -33,7 +33,7 @@
     border-radius: 25px;
 }
 
-.card-pic {
+.card-pic, .img-preview {
     margin: 20px 0 0px;
     width: 100%;
 
@@ -69,4 +69,10 @@
 
 .comment-icon {
     justify-self: flex-end;
+}
+
+@media screen and (max-width: 688px) {
+    .card-container {
+        width: 100%;
+    }
 }

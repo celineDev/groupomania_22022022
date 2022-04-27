@@ -74,12 +74,13 @@ const NewPostForm = () => {
     }
 
     return (
-        <div className='post-container' style={{border: "1px solid black"}}>
+        <form className='post-container' >
+            <h2 className='h1'>Créer un post</h2>
             <NavLink to="/profile">
-                <div className='profil-img'>
-                    <img className='profil-pic' src={userPicture ? userPicture : "./images/img/profile.jpg"} width='50px' alt="profil de l'utilisateur" />
-                    <p>{firstName} {lastName}</p>
-                </div>
+                <figure title='Profil utilisateur' className='new card-header'>
+                    <img className='nav-profile' src={userPicture ? userPicture : "./images/img/profile.png"} width='50px' alt="profil de l'utilisateur" />
+                    <h3 className='h2'>{firstName} {lastName}</h3>
+                </figure>
             </NavLink>
             <div className='post-form'>
                 <textarea
@@ -88,32 +89,35 @@ const NewPostForm = () => {
                     id="message"
                     cols="50"
                     rows="5"
-                    placeholder='Quoi de neuf ?'
+                    placeholder="Quoi de neuf ?"
                     onChange={(e) => setMessage(e.target.value)}
                     value={message}
                 ></textarea>
-                <img src={postPicture} alt="preview" className="img-preview" width="200px" />
+                {postPicture && <img src={postPicture} alt="preview" className="img-preview" />}
             </div>
 
             <div className='footer-form'>
                 <div className='icon'>
-                        <img src={landscape} width="25px" alt="icone paysage" />
-                        <input
-                            type="file"
-                            id='file-upload'
-                            name='file'
-                            accept='.jpg, .jpeg, .png'
-                            onChange={(e) => handlePicture(e)}
-                        />
+                    <input
+                        type="file"
+                        id='file-upload'
+                        name='file'
+                        accept='.jpg, .jpeg, .png'
+                        onChange={(e) => handlePicture(e)}
+                    />
+                    <label className='file-input__label' htmlFor="file-upload">
+                        <img className='svg' src={landscape} alt="upload icone paysage" />
+                        Ajouter une l'image
+                    </label>
                 </div>
-                <div className='btn-send'>
+                <div className='new button-container'>
                     {message || postPicture ? (
-                        <button className='cancel' onClick={(e) => cancelPost()}>Annuler</button>
+                        <button className='new cancel-btn' onClick={(e) => cancelPost()}>Annuler</button>
                     ) : null}
-                    <button className='send' onClick={(e) => handlePost()}>Envoyer</button>
+                    <button className='new validate-btn' onClick={(e) => handlePost()}>Envoyer</button>
                 </div>
             </div>
-        </div>
+        </form>
     );
 };
 

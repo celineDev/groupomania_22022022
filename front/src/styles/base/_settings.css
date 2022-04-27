@@ -43,7 +43,7 @@ a {
     text-decoration: none;
 }
 
-h1 {
+h1, .h1 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +51,7 @@ h1 {
     font-size: 28px;
 }
 
-h2 {
+h2, .h2 {
     font-size: 20px;
 }
 
