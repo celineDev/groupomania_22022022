@@ -1,0 +1,43 @@
+.post-container {
+    padding: 25px 40px 30px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.new.card-header {
+    align-items: center;
+}
+
+.h1 {
+    margin-bottom: 40px;
+    position: relative;
+    /* border-bottom: 1px solid red; */
+}
+
+.h1:before {
+    content: "";
+    position: absolute;
+    width: 610px;
+    border-bottom: 2px solid var(--primary-color);
+    bottom: -9px;
+}
+
+.h2 {
+    padding: 10px;
+    margin-left: 10px;
+    color: var(--font-color);
+}
+
+.new.button-container {
+/* background-color: yellow; */
+}
+
+.new.cancel-btn {
+    
+}
+
+.new.validate-btn {
+    width: 100%;
+
+}
+

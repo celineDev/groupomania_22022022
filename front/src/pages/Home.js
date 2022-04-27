@@ -13,8 +13,8 @@ const Home = () => {
             <Navigation />
             <main className='main_container'>
                 <section className='home-header'>
-                     {uid ? <NewPostForm /> : <Log login={true} signup={false} />}
-                 </section>
+                    {uid ? <NewPostForm /> : <Log login={true} signup={false} />}
+                </section>
                 <Thread />
             </main>
         </div>
