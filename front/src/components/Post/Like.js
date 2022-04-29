@@ -15,9 +15,7 @@ const Like = ({ post }) => {
         const likeCount = async () => {
             await GET(`api/post/${post.id}/like`)
             .then((res) => {
-                // setLikeCount(res.data.likes)
                 setLikeCount(res.data)
-                console.log(res.data)
             })
             .catch((err) => {
                 console.log(err)
@@ -30,9 +28,6 @@ const Like = ({ post }) => {
     const handleLike = () => {
         POST(`api/post/${post.id}/like`, { uid })
         .then((res) => {
-            if (res.err) {
-                console.log(res.err)
-            }
             if (res.status === 200) {
                 setLiked(false)
                 setLikeCount(likeCount -1)
@@ -50,8 +45,8 @@ const Like = ({ post }) => {
         <figure className='like-container'>
             {uid ? (
                 <div>
-                    {liked === false && <img src={emptyHeart} width="25" onClick={handleLike} alt="bouton like" />}
-                    {liked && <img src={filledHeart} width="25" onClick={handleLike} alt="bouton unlike" />}
+                    {liked === false && <img  title='liker' src={emptyHeart} width="25" onClick={handleLike} alt="bouton like" />}
+                    {liked && <img title='unliker' src={filledHeart} width="25" onClick={handleLike} alt="bouton unlike" />}
                 </div>
             ) : (
                 <NavLink activeclassname="active" to='/profile'>

@@ -10,7 +10,6 @@ const schema = yup
     .shape({
     profile: yup
         .mixed()
-        // .required("Fichier requis")
         .test('required', "Fichier requis", (value) =>{
             return value && value.length
         })

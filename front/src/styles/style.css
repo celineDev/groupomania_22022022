@@ -4,5 +4,6 @@
 @import "./components/_log.css";
 @import "./components/_cards.css";
 @import "./components/_newPost.css";
+@import "./components/_comment.css";
 
 @import "./pages/_profile.css";

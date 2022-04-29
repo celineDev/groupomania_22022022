@@ -1,8 +1,7 @@
-import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
-import { GET } from '../../utils/axios'
+import { GET, POST } from '../../utils/axios'
 import landscape from './../../assets/icons/landscape.svg'
 
 const NewPostForm = () => {
@@ -44,13 +43,7 @@ const NewPostForm = () => {
             }
 
             try {
-                const res = await axios({
-                    method: "post",
-                    baseURL: `http://localhost:3000/api/post`,
-                    withCredentials: true,
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                    data: data,
-                });
+                const res = await POST(`api/post`, data);
                 console.log('File uploaded', res.data);
                 window.location = '/'
             } catch (err) {

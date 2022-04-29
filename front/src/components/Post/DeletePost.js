@@ -6,13 +6,8 @@ const DeletePost = (props) => {
 
     const destroyPost = () => {
         DELETE(`api/post/${props.id}`)
-        .then((res) => {
-            console.log(res)
-            if (res.err) {
-                console.log(res.err);
-            }
-            const post = document.getElementById(`${props.id}`);
-            console.log(post)
+        .then(() => {
+            document.getElementById(`${props.id}`);
             window.location = "/";
         })
         .catch((err) => {

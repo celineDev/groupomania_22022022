@@ -32,7 +32,11 @@ exports.getAllComment = (req, res, next) => {
         const idPost = postFound.id
         models.Comment.findAll({
             where: { postId: idPost },
-            order:[['createdAt', 'DESC']]
+            order:[['createdAt', 'DESC']],
+            include: [{
+                model: models.User,
+                attributes: ['firstName', 'lastName', 'profile']
+            }],
         })
         .then(comments => res.status(200).json(comments))
         .catch(error => res.status(400).json({ error }));

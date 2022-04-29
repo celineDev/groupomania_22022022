@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     content: DataTypes.TEXT,
     imageUrl: DataTypes.STRING,
     likes: DataTypes.INTEGER,
-    comment: DataTypes.TEXT
+    comment: DataTypes.INTEGER
   }, {
     freezeTableName: true,
     sequelize,

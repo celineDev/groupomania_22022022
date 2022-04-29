@@ -1,0 +1,80 @@
+/* comment form part */
+.comment-form-container {
+    margin-top: 40px;
+    position: relative;
+}
+
+.comment-form-container:before {
+    position: absolute;
+    content: "";
+    width: 520px;
+    border-top: 2px solid var(--grey);
+    top: -20px;
+}
+
+.comment-form {
+    display: flex;
+}
+
+.comment-form > .new.card-header {
+    margin-bottom: 0;
+}
+
+input[type=text].rounded-input {
+    border-radius: 25px;
+    margin: 0 0 0 20px;
+}
+
+input[type=submit].rounded-input {
+    border-radius: 25px;
+    padding: 6px;
+    font-size: 14px;
+    font-size: 16px;
+    width: 25%;
+    margin-left: 70px;
+}
+
+.comment-container {
+    display: flex;
+}
+
+.comment-right {
+    border: 1px solid var(--primary-color);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    margin-left: 20px;
+    padding: 5px;
+    width: 100%;
+}
+
+.comment-right {
+    border-right: 1px solid var(--grey);
+}
+
+.comment-info {
+    display: flex;
+    justify-content: space-between;
+}
+.comment-info p:first-child {
+    font-weight: bold;
+}
+.comment-info p:nth-child(2) {
+    font-size: 15px;
+}
+
+.comment-trash-icon {
+    display: flex;
+    cursor: pointer;
+    border: 1px solid var(--primary-color);
+    background-color: var(--primary-color);
+    width: 50px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    justify-content: center;
+    transition: 200ms;
+}
+
+.comment-trash-icon:hover {
+    border: 1px solid var(--grey);
+    background-color: var(--grey);
+}

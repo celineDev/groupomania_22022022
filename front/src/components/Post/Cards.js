@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../UserContext';
 import { dateParser } from '../../utils/Functions';
@@ -24,6 +23,23 @@ const Cards = ({ post }) => {
 	const [textUpdate, setTextUpdate] = useState(null);
 	const [showComments, setShowComments] = useState(false);
 
+    const [commentCount, setCommentCount] = useState('')
+
+    // number of comments
+    useEffect(() => {
+        const commentCount = async () => {
+            await GET(`api/post/${post.id}/count-comment`)
+            .then((res) => {
+                setCommentCount(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+        commentCount()
+
+    }, [uid, post.id])
+
     useEffect(() => {
         const getPosterInfo = async () => {
             try {
@@ -45,12 +61,16 @@ const Cards = ({ post }) => {
             try {
                 if (uid !== null) {
                     const userId = uid.userId
-                    await GET(`api/auth/${userId}`);
-                    if (userId === 1) {
-                        setIsAdmin(true)
-                    } else {
-                        setIsAdmin(false)
-                    }
+                    await GET(`api/auth/${userId}`)
+                    .then((res) => {
+                        const admin = res.data.isAdmin
+                        if (admin === true) {
+                            setIsAdmin(true)
+                        } else {
+                            setIsAdmin(false)
+                        }
+                    })
+                    .catch((err) => console.log(err))
                 }
             } catch(err) {
                 console.log(err)
@@ -73,6 +93,7 @@ const Cards = ({ post }) => {
         setIsUpdated(false);
     }
 
+    // update picture
     const handlePicture = async (e) => {
         e.preventDefault();
         const data = new FormData()
@@ -80,13 +101,7 @@ const Cards = ({ post }) => {
             data.append("image", file)
         }
         try {
-            const res = await axios({
-                method: "put",
-                baseURL: `http://localhost:3000/api/post/${post.id}`,
-                withCredentials: true,
-                headers: { 'Content-Type': 'multipart/form-data' },
-                data: data,
-            });
+            const res = await PUT(`api/post/${post.id}`, data);
             console.log('File uploaded', res.data);
             window.location = '/'
         } catch (err) {
@@ -122,10 +137,10 @@ const Cards = ({ post }) => {
                 </div>
                 )}
 
-                {isUpdated === false && <img src={post.imageUrl} alt="post illustration" className="card-pic" />}
+                {isUpdated === false && post.imageUrl &&  <img src={post.imageUrl} alt="post illustration" className="card-pic" />}
                 {isUpdated && (
                 <div className="update-post">
-                    <img src={post.imageUrl} alt="post illustration" className="card-pic" />
+                    {post.imageUrl && <img src={post.imageUrl} alt="post illustration" className="card-pic" />}
                     <input
                         type="file"
                         id='file'
@@ -135,7 +150,7 @@ const Cards = ({ post }) => {
                     />
                     <label className='file-input__label' htmlFor="file">
                         <img className='svg' src={uploads} alt="upload" />
-                        Modifier l'image
+                        Ajouter / Modifier l'image
                     </label>
                     <div className="button-container">
                         <button className='cancel-btn' onClick={(e) => cancelPost()}>Annuler</button>
@@ -159,12 +174,11 @@ const Cards = ({ post }) => {
             <div className='card-footer'>
                 <Like post={post}/>
                 <figure className='comment-icon'>
-                    <img src={chat} width="25" alt="comment" onClick={() => setShowComments(!showComments)} />
-                    {/* <figcaption>{post.comment.length}</figcaption> */}
+                    <img title='laisser un commentaire' src={chat} width="25" alt="comment" onClick={() => setShowComments(!showComments)} />
+                    <figcaption>{commentCount}</figcaption>
                 </figure>
-                {showComments && <Comment post={post} />}
-                {/* <Comment /> */}
             </div>
+            {showComments && <Comment post={post} />}
         </article>
     );
 };

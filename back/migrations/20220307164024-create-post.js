@@ -31,8 +31,9 @@ module.exports = {
         defaultValue: 0,
       },
       comment: {
-        type: Sequelize.TEXT,
-        allowNull: true
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
