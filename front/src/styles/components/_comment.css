@@ -60,6 +60,7 @@ input[type=submit].rounded-input {
 }
 .comment-info p:nth-child(2) {
     font-size: 15px;
+    color: var(--darkShadow);
 }
 
 .comment-trash-icon {
@@ -78,3 +79,11 @@ input[type=submit].rounded-input {
     border: 1px solid var(--grey);
     background-color: var(--grey);
 }
+
+@media screen and (max-width: 688px) {
+    .comment-info {
+        display: block;
+    }
+}
+@media screen and (max-width: 992px) {}
+@media screen and (max-width: 1312px) {}

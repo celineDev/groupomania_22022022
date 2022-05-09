@@ -17,12 +17,6 @@ const schema = yup
 })
   .required()
 
-const wait = function (duration = 1000) {
-  return new Promise((resolve) => {
-    window.setTimeout(resolve, duration)
-  })
-}
-
 const SignupForm = () => {
   const [formSubmit, setFormSubmit] = useState(false)
   const [passwordIsVisible, setPasswordIsVisible] = useState('')
@@ -31,7 +25,6 @@ const SignupForm = () => {
   });
 
   const onSubmit = async data => {
-    await wait(2000)
     try {
         await apiRequest.signup(data);
         setFormSubmit(true)

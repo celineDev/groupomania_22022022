@@ -33,7 +33,7 @@ const Navigation = () => {
         <header className="navigation">
             <nav className='nav-container'>
                 <NavLink className="inactive" activeclassname="active" to="/">
-                    <img className='logo' src="./images/logos/icon-left-font-sm.png" alt="logo groupomania" />
+                    <img className='logo' src="./images/logos/new_icon.png" alt="logo groupomania" />
                 </NavLink>
                 {uid ? (
                     <ul className='nav-list'>
