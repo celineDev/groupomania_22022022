@@ -74,9 +74,3 @@ exports.deleteComment = (req, res, next) => {
     })
     .catch(error => res.status(400).json({ error }));
 }
-
-exports.nbrOfComment = (req, res, next) => {
-    models.Post.findOne({ where: {id: req.params.id} })
-    .then(posts => res.status(200).json(posts.comment))
-    .catch(error => res.status(400).json({ error }));
-}

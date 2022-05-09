@@ -20,22 +20,6 @@ const Cards = ({ post }) => {
 	const [isUpdated, setIsUpdated] = useState(false);
 	const [textUpdate, setTextUpdate] = useState(null);
 	const [showComments, setShowComments] = useState(false);
-    const [commentCount, setCommentCount] = useState('')
-
-    // number of comments
-    useEffect(() => {
-        const commentCount = async () => {
-            await apiRequest.countComment(`${post.id}`)
-            .then((res) => {
-                setCommentCount(res.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
-        commentCount()
-
-    }, [uid, post.id])
 
     useEffect(() => {
         const getPosterInfo = async () => {
@@ -172,7 +156,6 @@ const Cards = ({ post }) => {
                 <Like post={post}/>
                 <figure className='comment-icon'>
                     <img title='laisser un commentaire' src={chat} width="25" alt="comment" onClick={() => setShowComments(!showComments)} />
-                    <figcaption>{commentCount}</figcaption>
                 </figure>
             </div>
             {showComments && <Comment post={post} />}
