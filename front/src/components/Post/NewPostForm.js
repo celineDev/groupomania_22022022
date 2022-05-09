@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
-import { GET, POST } from '../../utils/axios'
+import { apiRequest } from '../../utils/api';
 import landscape from './../../assets/icons/landscape.svg'
 
 const NewPostForm = () => {
@@ -18,7 +18,7 @@ const NewPostForm = () => {
         const getUserInfo = async () => {
             if (uid !== null) {
                 const userId = uid.userId
-                await GET (`api/auth/${userId}`)
+                await apiRequest.getUser(`${userId}`)
                 .then((res) => {
                     setFirstName(res.data.firstName)
                     setLastName(res.data.lastName)
@@ -33,7 +33,8 @@ const NewPostForm = () => {
 
     }, [uid, firstName, lastName])
 
-    const handlePost = async () => {
+    const handlePost = async (e) => {
+        e.preventDefault()
         if (message || postPicture) {
             const data = new FormData();
             data.append("UserId", uid.userId);
@@ -43,7 +44,7 @@ const NewPostForm = () => {
             }
 
             try {
-                const res = await POST(`api/post`, data);
+                const res = await apiRequest.createPost(data)
                 console.log('File uploaded', res.data);
                 window.location = '/'
             } catch (err) {
@@ -107,7 +108,7 @@ const NewPostForm = () => {
                     {message || postPicture ? (
                         <button className='new cancel-btn' onClick={(e) => cancelPost()}>Annuler</button>
                     ) : null}
-                    <button className='new validate-btn' onClick={(e) => handlePost()}>Envoyer</button>
+                    <button className='new validate-btn' onClick={(e) => handlePost(e)}>Envoyer</button>
                 </div>
             </div>
         </form>

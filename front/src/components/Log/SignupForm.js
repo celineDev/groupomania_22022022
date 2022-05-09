@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { POST } from '../../utils/axios'
 import LoginForm from './LoginForm'
 import eyeOpen from './../../assets/icons/eyeOpen.svg'
 import eyeClosed from './../../assets/icons/eyeClosed.svg'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import *  as yup from 'yup'
+import { apiRequest } from '../../utils/api';
 
 const schema = yup
   .object()
@@ -33,7 +33,7 @@ const SignupForm = () => {
   const onSubmit = async data => {
     await wait(2000)
     try {
-        await POST(`api/auth/signup`, data);
+        await apiRequest.signup(data);
         setFormSubmit(true)
     } catch (err) {
       document.getElementById('error').innerText = 'Erreur email'

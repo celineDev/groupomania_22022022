@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../UserContext';
-import { GET } from '../../utils/axios';
+import { apiRequest } from '../../utils/api';
 import { dateParser } from '../../utils/Functions';
 import DeleteComment from './DeleteComment';
 
@@ -13,7 +13,7 @@ const Comments = ({ comment }) => {
         const getUserInfo = async () => {
             if (uid !== null) {
                 const userId = uid.userId
-                await GET (`api/auth/${userId}`)
+                await apiRequest.getUser(`${userId}`)
                 .then((res) => {
                     const admin = res.data.isAdmin
                     if (admin === true) {

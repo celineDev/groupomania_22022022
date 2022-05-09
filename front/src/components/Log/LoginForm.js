@@ -4,7 +4,7 @@ import eyeClosed from './../../assets/icons/eyeClosed.svg'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import *  as yup from 'yup'
-import { POST } from '../../utils/axios'
+import { apiRequest } from '../../utils/api';
 
 const schema = yup
   .object()
@@ -22,7 +22,7 @@ const LoginForm = () => {
 
     const onSubmit = async data => {
       try {
-          const res = await POST(`api/auth/login`, data);
+          const res = await apiRequest.login(data);
           const userId = res.data
           sessionStorage.setItem('user', JSON.stringify(userId))
           window.location = "/";

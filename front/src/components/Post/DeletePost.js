@@ -1,11 +1,11 @@
 import React from 'react';
-import { DELETE } from '../../utils/axios'
+import { apiRequest } from '../../utils/api';
 import trash from './../../assets/icons/trash.svg'
 
 const DeletePost = (props) => {
 
     const destroyPost = () => {
-        DELETE(`api/post/${props.id}`)
+        apiRequest.deletePost(`${props.id}`)
         .then(() => {
             document.getElementById(`${props.id}`);
             window.location = "/";

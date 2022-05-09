@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import Logout from './Log/Logout';
-import { GET } from '../utils/axios'
+import { apiRequest } from '../utils/api';
 
 const Navigation = () => {
     const uid = useContext(UserContext);
@@ -14,7 +14,7 @@ const Navigation = () => {
         const getUserInfo = async () => {
             if (uid !== null) {
                 const userId = uid.userId
-                await GET (`api/auth/${userId}`)
+                await apiRequest.getUser(`${userId}`)
                 .then((res) => {
                     setFirstName(res.data.firstName)
                     setProfilePicture(res.data.profile)

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { apiRequest } from '../../utils/api';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import *  as yup from 'yup'
-import { GET, PUT } from '../../utils/axios'
 import uploads from './../../assets/icons/uploads.svg'
 
 const schema = yup
@@ -26,25 +26,10 @@ const schema = yup
     })
     .required()
 
-const UploadImg = ({ uid }) => {
-    const [userProfile, setUserProfile] = useState(false)
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema),
+    const UploadImg = ({ userProfile, uid}) => {
+        const { register, handleSubmit, formState: { errors } } = useForm({
+            resolver: yupResolver(schema),
     });
-
-    useEffect(() => {
-        const getUserInfo = async () => {
-            await GET (`api/auth/${uid}`)
-            .then((res) => {
-                setUserProfile(res.data.profile)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
-        getUserInfo()
-
-    }, [uid, userProfile])
 
     const onSubmit = async file => {
         const newData = new FormData()
@@ -52,7 +37,7 @@ const UploadImg = ({ uid }) => {
             newData.append("image", file.profile[0])
         }
         try {
-            const res = await PUT(`api/auth/${uid}`,newData);
+            const res = await apiRequest.updateUser(`${uid}`,newData);
             console.log('File uploaded', res.data);
             window.location = '/profile'
         } catch (err) {

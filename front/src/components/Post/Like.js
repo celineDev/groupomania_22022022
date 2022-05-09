@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import emptyHeart from './../../assets/icons/emptyHeart.svg'
 import filledHeart from './../../assets/icons/filledHeart.svg'
 import { UserContext } from '../../UserContext';
-import { GET, POST } from '../../utils/axios'
+import { axiosInstance } from '../../utils/AxiosConfig'
 import { NavLink } from 'react-router-dom';
 
 const Like = ({ post }) => {
@@ -13,7 +13,7 @@ const Like = ({ post }) => {
     // number of likes
     useEffect(() => {
         const likeCount = async () => {
-            await GET(`api/post/${post.id}/like`)
+            await axiosInstance.GET(`api/post/${post.id}/like`)
             .then((res) => {
                 setLikeCount(res.data)
             })
@@ -26,7 +26,7 @@ const Like = ({ post }) => {
     }, [uid, post.id])
 
     const handleLike = () => {
-        POST(`api/post/${post.id}/like`, { uid })
+        axiosInstance.POST(`api/post/${post.id}/like`, { uid })
         .then((res) => {
             if (res.status === 200) {
                 setLiked(false)

@@ -1,5 +1,5 @@
 import React from "react";
-import { POST } from '../../utils/axios'
+import { apiRequest } from "../../utils/api";
 import cookie from "js-cookie";
 import logoutIcon from './../../assets/icons/logoutIcon.svg'
 
@@ -11,7 +11,7 @@ const Logout = () => {
     };
 
   const logout = async () => {
-        await POST(`api/auth/logout`)
+        await apiRequest.logout()
         .then(() => {
             removeCookie("jwt")
             sessionStorage.clear()

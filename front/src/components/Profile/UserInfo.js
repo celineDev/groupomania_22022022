@@ -1,43 +1,19 @@
-import axios from 'axios'
 import Cookies from 'js-cookie';
-import React, { useEffect, useState } from 'react';
-import { GET, DELETE } from '../../utils/axios'
+import React, { useState } from 'react';
 import edit from './../../assets/icons/edit.svg'
+import { apiRequest } from '../../utils/api';
 
-const UserInfo = ({ uid }) => {
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
-
+const UserInfo = ({ uid, firstName, lastName }) => {
     const [isUpdated, setIsUpdated] = useState(false);
     const [firstNameUpdate, setFirstNameUpdate] = useState(false);
     const [lastNameUpdate, setLastNameUpdate] = useState(false);
-
-    useEffect(() => {
-		const getUserInfo = async () => {
-			await GET(`api/auth/${uid}`)
-				.then((res) => {
-                    setFirstName(res.data.firstName)
-                    setLastName(res.data.lastName)
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		};
-		getUserInfo();
-
-	}, [uid, firstName, lastName]);
 
     const handleUpdate = async () => {
         if (firstNameUpdate || lastNameUpdate) {
             const data = new FormData()
             data.append ('firstName', firstNameUpdate || firstName)
             data.append ('lastName', lastNameUpdate || lastName)
-            axios({
-                method: 'put',
-                baseURL: `http://localhost:3000/api/auth/${uid}`,
-                withCredentials: true,
-                data: data,
-            })
+            apiRequest.updateUser(`${uid}`, data)
             .then((res) => {
                 console.log(res)
                 window.location = '/profile'
@@ -59,7 +35,7 @@ const UserInfo = ({ uid }) => {
     }
 
     const deleteAccount = () => {
-        DELETE(`api/auth/${uid}`)
+        apiRequest.deleteUser(`${uid}`)
         .then(() => {
             removeCookie("jwt")
             sessionStorage.clear()

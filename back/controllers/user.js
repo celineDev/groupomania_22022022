@@ -46,8 +46,6 @@ exports.login = async(req, res, next) => {
             }
             const maxAge = 1 * 24 * 60 * 60 * 1000
             const token = jwt.sign({ userId: user.id}, process.env.JWT_TOKEN, { expiresIn: maxAge })
-            // sameSite: true,
-            // secure: true,
             res.cookie('jwt', token, { httpOnly: true, maxAge} )
             res.status(200).json({
                 userId: user.id,
@@ -115,7 +113,7 @@ exports.updateUser = (req, res, next) => {
 }
 
 exports.deleteUser = async(req, res, next) => {
-    models.User.findOne({ id: req.params.id })
+    models.User.findOne({ where: { id: req.params.id } })
     .then(user => {
         const filename = user.profile.split('/images/')[1];
         if (filename !== "default/profile.png") {

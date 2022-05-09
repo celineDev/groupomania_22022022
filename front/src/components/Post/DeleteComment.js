@@ -1,11 +1,11 @@
 import React from 'react';
-import { DELETE } from '../../utils/axios'
+import { axiosInstance } from '../../utils/AxiosConfig'
 import trash from './../../assets/icons/trash.svg'
 
 const DeleteComment = (props) => {
 
     const destroyComment = () => {
-        DELETE(`api/post/${props.postId}/comment/${props.id}`)
+        axiosInstance.DELETE(`api/post/${props.postId}/comment/${props.id}`)
         .then(() => {
             const post = document.getElementById(`${props.id}`);
             console.log(post)

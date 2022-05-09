@@ -2,16 +2,12 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { isEmpty } from '../../utils/Functions';
 import { UserContext } from '../../UserContext';
-import { GET } from '../../utils/axios'
 import Comments from './Comments';
+import { apiRequest } from '../../utils/api';
 
 const Comment = ({ post }) => {
     const uid = useContext(UserContext)
-
     const [userPicture, setUserPicture] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-
     const [comment , setComment] = useState('')
     const [comments , setComments] = useState('')
 
@@ -20,10 +16,8 @@ const Comment = ({ post }) => {
         const getUserInfo = async () => {
             if (uid !== null) {
                 const userId = uid.userId
-                await GET (`api/auth/${userId}`)
+                await apiRequest.getUser(`${userId}`)
                 .then((res) => {
-                    setFirstName(res.data.firstName)
-                    setLastName(res.data.lastName)
                     setUserPicture(res.data.profile)
                 })
                 .catch((err) => {
@@ -33,7 +27,7 @@ const Comment = ({ post }) => {
         }
         getUserInfo()
 
-    }, [uid, firstName, lastName, userPicture])
+    }, [uid, userPicture])
 
     // create a comment
     const handleSubmit = (e) => {
@@ -41,7 +35,7 @@ const Comment = ({ post }) => {
         try {
             axios({
                 method: "post",
-                url: `http://localhost:3000/api/post/${post.id}/comment`,
+                url: `${process.env.REACT_APP_API_URL}/api/post/${post.id}/comment`,
                 withCredentials: true,
                 data: {
                     comment,
@@ -56,7 +50,7 @@ const Comment = ({ post }) => {
 
     useEffect(() => {
         const getAllComments = async () => {
-            await GET(`api/post/${post.id}/comment`)
+            await apiRequest.getAllComment(`${post.id}`)
             .then((res) => {
                 setComments(res.data)
             })
@@ -66,8 +60,6 @@ const Comment = ({ post }) => {
         }
         getAllComments()
     }, [post.id])
-
-    console.log(userPicture)
 
     return (
         <div className='comment-form-container'>

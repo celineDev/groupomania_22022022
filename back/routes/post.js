@@ -23,7 +23,7 @@ router.get('/:id/comment', commentCtrl.getAllComment);
 router.post('/:id/comment', auth, commentCtrl.createComment);
 router.get('/:id/comment/:id', commentCtrl.getOneComment);
 router.put('/:id/comment/:id', auth, commentCtrl.modifyComment);
-router.delete('/:id/comment/:id', commentCtrl.deleteComment);
+router.delete('/:id/comment/:id', auth, commentCtrl.deleteComment);
 // get number of comment
 router.get('/:id/count-comment', commentCtrl.nbrOfComment);
 

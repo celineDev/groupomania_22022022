@@ -4,31 +4,28 @@ import { dateParser } from '../../utils/Functions';
 import Comment from './Comment';
 import DeletePost from './DeletePost';
 import Like from './Like';
-import { GET, PUT } from '../../utils/axios'
 import edit from './../../assets/icons/edit.svg'
 import chat from './../../assets/icons/chat.svg'
 import uploads from './../../assets/icons/uploads.svg'
+import { apiRequest } from '../../utils/api';
 
-// donnée passé en props quand on appelle à chaque fois la carte que l'on a
+// post prop will return my post.s
 const Cards = ({ post }) => {
     const uid = useContext(UserContext)
     const [isAdmin, setIsAdmin] = useState('')
-
     const [posterPicture, setPosterPicture] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLasttName] = useState('')
-
     const [file, setFile] = useState('')
 	const [isUpdated, setIsUpdated] = useState(false);
 	const [textUpdate, setTextUpdate] = useState(null);
 	const [showComments, setShowComments] = useState(false);
-
     const [commentCount, setCommentCount] = useState('')
 
     // number of comments
     useEffect(() => {
         const commentCount = async () => {
-            await GET(`api/post/${post.id}/count-comment`)
+            await apiRequest.countComment(`${post.id}`)
             .then((res) => {
                 setCommentCount(res.data)
             })
@@ -43,7 +40,7 @@ const Cards = ({ post }) => {
     useEffect(() => {
         const getPosterInfo = async () => {
             try {
-                const user = await GET(`api/auth/${post.UserId}`);
+                const user = await apiRequest.getUser(`${post.UserId}`);
                 setPosterPicture(user.data.profile)
                 setFirstName(user.data.firstName)
                 setLasttName(user.data.lastName)
@@ -61,7 +58,7 @@ const Cards = ({ post }) => {
             try {
                 if (uid !== null) {
                     const userId = uid.userId
-                    await GET(`api/auth/${userId}`)
+                    await apiRequest.getUser(`${userId}`)
                     .then((res) => {
                         const admin = res.data.isAdmin
                         if (admin === true) {
@@ -84,7 +81,7 @@ const Cards = ({ post }) => {
         if (textUpdate) {
             const content = textUpdate
             try {
-                await PUT(`api/post/${post.id}`, {content});
+                await apiRequest.updatePost(`${post.id}`, {content});
                 window.location = '/'
             } catch(err) {
                 console.log(err)
@@ -101,7 +98,7 @@ const Cards = ({ post }) => {
             data.append("image", file)
         }
         try {
-            const res = await PUT(`api/post/${post.id}`, data);
+            const res = await apiRequest.updatePicture(`${post.id}`, data);
             console.log('File uploaded', res.data);
             window.location = '/'
         } catch (err) {

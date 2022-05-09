@@ -22,7 +22,7 @@ exports.createComment = (req, res, next) => {
         })
         .catch(error => res.status(400).json({ error: 'Le commentaire n\'a pas pu être créé !' }));
     })
-    .catch(error => res.status(400).json({ error: 'ici?' }));
+    .catch(error => res.status(400).json({ error }));
 }
 
 // read : array of all the comments of one post

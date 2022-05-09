@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import Log from '../components/Log';
 import Navigation from '../components/Navigation';
-import NewPostForm from '../components/Post/NewPostForm';
 import Thread from '../components/Thread';
 import { UserContext } from '../UserContext';
 
@@ -13,12 +12,14 @@ const Home = () => {
             <Navigation />
             <main className='main_container'>
                 <section className='home-header'>
-                    {uid ? <NewPostForm /> : <Log login={true} signup={false} />}
+                    {uid ? <Thread /> : <Log login={true} signup={false} />}
                 </section>
-                <Thread />
             </main>
         </div>
     );
 };
 
 export default Home;
+
+
+// Eviter les redirections et reload d'un page dans l'utilisation d'un framework, le but est de jouer sur les states pour re rendre la page.

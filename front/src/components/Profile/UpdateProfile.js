@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "./../../UserContext";
 import UploadImg from "./UploadImg";
 import UserInfo from "./UserInfo";
-import { GET } from '../../utils/axios'
+import { apiRequest } from "../../utils/api";
 
 const UpdateProfile = () => {
 	const userId = useContext(UserContext);
@@ -14,7 +14,7 @@ const UpdateProfile = () => {
 
 	useEffect(() => {
 		const getUserInfo = async () => {
-			await GET(`api/auth/${uid}`)
+			await apiRequest.getUser(`${uid}`)
 			.then((res) => {
 				setFirstName(res.data.firstName);
 				setLastName(res.data.lastName);
@@ -31,7 +31,7 @@ const UpdateProfile = () => {
 	return (
 		<section className="profile-container">
 			<h1> Profil de {firstName} {lastName}</h1>
-			<UploadImg img={userProfile} uid={uid} />
+			<UploadImg userProfile={userProfile} uid={uid} />
 			<UserInfo uid={uid} firstName={firstName} lastName={lastName} />
 		</section>
 	)
