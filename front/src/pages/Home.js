@@ -20,6 +20,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-// Eviter les redirections et reload d'un page dans l'utilisation d'un framework, le but est de jouer sur les states pour re rendre la page.
