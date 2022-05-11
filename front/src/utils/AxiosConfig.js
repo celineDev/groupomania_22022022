@@ -7,7 +7,7 @@ class AxiosConfig {
     this.axios.defaults.headers = {
       'Content-Type': 'application/json',
     };
-    //All request will wait 1 seconds before timeout
+    //All request will wait 1 second before timeout
     this.axios.defaults.timeout = 1000;
     this.axios.defaults.withCredentials = true;
   }
