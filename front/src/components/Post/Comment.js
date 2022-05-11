@@ -43,7 +43,6 @@ const Comment = ({ post }) => {
             })
             window.location = "/";
         } catch (err) {
-          document.getElementById('error').innerText = 'Erreur email'
           console.error('echec', err);
         }
     }
