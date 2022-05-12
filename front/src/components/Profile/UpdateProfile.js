@@ -29,11 +29,11 @@ const UpdateProfile = () => {
 	}, [uid, firstName, lastName, userProfile]);
 
 	return (
-		<section className="profile-container">
+		<main className="profile-container">
 			<h1> Profil de {firstName} {lastName}</h1>
 			<UploadImg userProfile={userProfile} uid={uid} />
 			<UserInfo uid={uid} firstName={firstName} lastName={lastName} />
-		</section>
+		</main>
 	)
 };
 
