@@ -104,7 +104,7 @@ const Cards = ({ post }) => {
                 </figcaption>
             </figure>
             <div className='cart-main'>
-                {isUpdated === false && <p>{post.content}</p>}
+                {isUpdated === false && <p tabIndex="0">{post.content}</p>}
                 {isUpdated && (
                 <div className="update-post">
                     <textarea

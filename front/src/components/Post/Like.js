@@ -53,7 +53,7 @@ const Like = ({ post }) => {
                     <img src={emptyHeart} width="25" alt="login" />
                 </NavLink>
             )}
-            <figcaption>{likeCount}</figcaption>
+            <figcaption tabIndex="0">{likeCount}</figcaption>
         </figure>
     );
 };
