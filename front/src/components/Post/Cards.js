@@ -99,8 +99,8 @@ const Cards = ({ post }) => {
             <figure className="card-header">
                 <img className="poster-profile" src={posterPicture} alt="poster profile" />
                 <figcaption>
-                    <h2>{firstName} {lastName}</h2>
-                    <p>{dateParser(post.updatedAt)}</p>
+                    <h2 tabIndex="0">{firstName} {lastName}</h2>
+                    <p tabIndex="0">{dateParser(post.updatedAt)}</p>
                 </figcaption>
             </figure>
             <div className='cart-main'>
@@ -144,7 +144,7 @@ const Cards = ({ post }) => {
             <div className="btn-container">
             {uid ? (uid.userId === post.UserId) ?  (
                 <figure title='Modifier' className="edit-button" onClick={() => setIsUpdated(!isUpdated)}>
-                    <img src={edit} width="25" alt="edit icon" />
+                    <img tabIndex="0" src={edit} width="25" alt="edit icon" />
                 </figure>
                 ) :  null  : null  }
                 {uid ? (uid.userId === post.UserId) || isAdmin ? (
@@ -155,7 +155,7 @@ const Cards = ({ post }) => {
             <div className='card-footer'>
                 <Like post={post}/>
                 <figure className='comment-icon'>
-                    <img title='laisser un commentaire' src={chat} width="25" alt="comment" onClick={() => setShowComments(!showComments)} />
+                    <img tabIndex="0" title='laisser un commentaire' src={chat} width="25" alt="comment" onClick={() => setShowComments(!showComments)} />
                 </figure>
             </div>
             {showComments && <Comment post={post} />}

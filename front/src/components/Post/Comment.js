@@ -68,6 +68,7 @@ const Comment = ({ post }) => {
                         <img className='nav-profile' src={userPicture ? userPicture : "./images/img/profile.png"} width='50px' alt="profil de l'utilisateur" />
                     </figure>
                     <input
+                        aria-label="Laisser un commentaire"
                         className='rounded-input'
                         type="text"
                         name='comment'

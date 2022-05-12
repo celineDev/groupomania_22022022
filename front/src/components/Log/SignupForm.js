@@ -47,6 +47,7 @@ const SignupForm = () => {
           <form onSubmit={handleSubmit(onSubmit)} id="sign-up-form">
             <h1>Inscription</h1>
           <input
+              aria-label="Prénom"
               type="text"
               name='firstName'
               id='firstName'
@@ -55,6 +56,7 @@ const SignupForm = () => {
           />
           <p className="error">{errors.firstName && <span>{errors.firstName.message}</span> }</p>
           <input
+              aria-label="Nom"
               type="text"
               name='lastName'
               id='lastName'
@@ -63,6 +65,7 @@ const SignupForm = () => {
           />
           <p className="error">{errors.lastName && <span>{errors.lastName.message}</span> }</p>
           <input
+              aria-label="Email"
               type="text"
               name='email'
               id='email'
@@ -73,6 +76,7 @@ const SignupForm = () => {
           <p className="error" id='error'>{errors.email && <span>{errors.email.message}</span> }</p>
           <div className='form-password'>
             <input
+                aria-label="Mot de passe"
                 type={passwordIsVisible ? 'text' : 'password'}
                 name='password'
                 id='password'

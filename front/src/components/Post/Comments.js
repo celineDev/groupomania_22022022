@@ -34,14 +34,14 @@ const Comments = ({ comment }) => {
     return (
         <div className="comment-container">
             <figure className="comment-left">
-                <img className="poster-profile" src={comment.User.profile} alt="poster profile" />
+                <img className="poster-profile" src={comment.User.profile} alt="profile du commenteur" />
             </figure>
             <div className='comment-right'>
                 <div className='comment-info'>
-                    <p>{comment.User.firstName} {comment.User.lastName}</p>
-                    <p>{dateParser(comment.updatedAt)}</p>
+                    <p tabIndex="0">{comment.User.firstName} {comment.User.lastName}</p>
+                    <p tabIndex="0">{dateParser(comment.updatedAt)}</p>
                 </div>
-                <p>{comment.comment}</p>
+                <p tabIndex="0">{comment.comment}</p>
             </div>
             {uid ? (uid.userId === comment.UserId) || isAdmin ? (
                 <DeleteComment id={comment.id} postId={comment.postId} />

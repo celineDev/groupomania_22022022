@@ -30,7 +30,7 @@ const UserInfo = ({ uid, firstName, lastName }) => {
 
     const removeCookie = (key) => {
         if (window !== "undefined") {
-            Cookies.remove(key)
+            Cookies.remove(key, { expires: 1 })
         }
     }
 
@@ -38,7 +38,7 @@ const UserInfo = ({ uid, firstName, lastName }) => {
         apiRequest.deleteUser(`${uid}`)
         .then(() => {
             removeCookie("jwt")
-            sessionStorage.clear()
+            localStorage.clear()
             window.location = "/"
         })
         .catch((err) => console.log(err))
@@ -48,6 +48,7 @@ const UserInfo = ({ uid, firstName, lastName }) => {
         <form className="user-update">
             {isUpdated === false &&
                 <input
+                aria-label="Prénom"
                 type="text"
                 placeholder='Prénom'
                 defaultValue={firstName}
@@ -56,6 +57,7 @@ const UserInfo = ({ uid, firstName, lastName }) => {
             }
             {isUpdated === false &&
             <input
+            aria-label="Nom"
                 type="text"
                 placeholder='Nom'
                 defaultValue={lastName}
@@ -65,11 +67,13 @@ const UserInfo = ({ uid, firstName, lastName }) => {
             {isUpdated && (
                 <div className="update-post">
                     <input
+                    aria-label="Prénom"
                         type="text"
                         defaultValue={firstName}
                         onChange={(e) => setFirstNameUpdate(e.target.value)}
                     />
                     <input
+                    aria-label="Nom"
                         type="text"
                         defaultValue={lastName}
                         onChange={(e) => setLastNameUpdate(e.target.value)}
@@ -81,9 +85,9 @@ const UserInfo = ({ uid, firstName, lastName }) => {
                 </div>
             )}
             <figure className="edit-button" onClick={() => setIsUpdated(!isUpdated)}>
-                <img title='modifier' src={edit} width="25" alt="edit icon" />
+                <img tabIndex="0" title='modifier' src={edit} width="25" alt="edit icon" />
             </figure>
-            <p id="deleteAccount"
+            <p tabIndex="0" id="deleteAccount"
                 onClick={() => {
                     if (window.confirm("Voulez vous supprimer votre compte?")) {
                         deleteAccount();

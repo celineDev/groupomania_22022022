@@ -45,8 +45,8 @@ const Like = ({ post }) => {
         <figure className='like-container'>
             {uid ? (
                 <div>
-                    {liked === false && <img  title='liker' src={emptyHeart} width="25" onClick={handleLike} alt="bouton like" />}
-                    {liked && <img title='unliker' src={filledHeart} width="25" onClick={handleLike} alt="bouton unlike" />}
+                    {liked === false && <img tabIndex="0"  title='liker' src={emptyHeart} width="25" onClick={handleLike} alt="bouton like" />}
+                    {liked && <img tabIndex="0" title='unliker' src={filledHeart} width="25" onClick={handleLike} alt="bouton unlike" />}
                 </div>
             ) : (
                 <NavLink activeclassname="active" to='/profile'>

@@ -73,7 +73,8 @@ input[type=submit] {
     font-weight: 600;
 }
 
-input[type=submit]:hover {
+input[type=submit]:hover,
+input[type=submit]:focus {
     background-color: var(--dark-primary-color)
 }
 
@@ -97,7 +98,8 @@ input[type=file] {
     transition: 200ms;
 }
 
-.file-input__label:hover {
+.file-input__label:hover,
+.file-input__label:focus {
     background-color: var(--grey);
 }
 
@@ -136,7 +138,8 @@ input[type=file] {
     cursor: pointer;
 }
 
-.logout-container:hover {
+.logout-container:hover,
+.logout-container:focus {
     background-color: var(--grey)
 }
 

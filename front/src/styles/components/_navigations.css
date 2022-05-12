@@ -39,7 +39,8 @@ header.navigation {
     transition: 200ms;
 }
 
-.nav-figure:hover {
+.nav-figure:hover,
+.nav-figure:focus {
     background-color: var(--grey)
 }
 

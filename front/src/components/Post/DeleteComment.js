@@ -22,7 +22,7 @@ const DeleteComment = (props) => {
                 destroyComment()
             }
         }}>
-            <img title='Supprimer' src={trash} width="25" alt="trash icon" />
+            <img tabIndex="0" title='Supprimer' src={trash} width="25" alt="trash icon" />
         </figure>
     );
 };

@@ -14,7 +14,7 @@ const Logout = () => {
         await apiRequest.logout()
         .then(() => {
             removeCookie("jwt")
-            sessionStorage.clear()
+            localStorage.clear()
         })
         .catch((err) => console.log(err));
 
@@ -22,7 +22,7 @@ const Logout = () => {
   };
 
     return (
-        <li title="se deconnecter"  className="logout-container" onClick={logout}>
+        <li tabIndex="0" title="se deconnecter"  className="logout-container" onClick={logout}>
             <img className="logout" src={logoutIcon} width="28" alt="logout" />
         </li>
     );

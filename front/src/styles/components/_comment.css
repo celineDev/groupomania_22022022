@@ -60,7 +60,7 @@ input[type=submit].rounded-input {
 }
 .comment-info p:nth-child(2) {
     font-size: 15px;
-    color: var(--darkShadow);
+    color: var(--light-font-color);
 }
 
 .comment-trash-icon {
@@ -75,7 +75,8 @@ input[type=submit].rounded-input {
     transition: 200ms;
 }
 
-.comment-trash-icon:hover {
+.comment-trash-icon:hover,
+.comment-trash-icon:focus {
     border: 1px solid var(--grey);
     background-color: var(--grey);
 }

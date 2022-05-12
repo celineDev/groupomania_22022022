@@ -24,7 +24,7 @@ const LoginForm = () => {
       try {
           const res = await apiRequest.login(data);
           const userId = res.data
-          sessionStorage.setItem('user', JSON.stringify(userId))
+          localStorage.setItem('user', JSON.stringify(userId))
           window.location = "/";
       } catch (err) {
         document.getElementById('error').innerText = 'Erreur sur les identifiants'
@@ -36,6 +36,7 @@ const LoginForm = () => {
       <form action="" onSubmit={handleSubmit(onSubmit)} id="login-form">
         <h1>Connexion</h1>
           <input
+              aria-label="Email"
               type="text"
               name='email'
               id='email'
@@ -45,6 +46,7 @@ const LoginForm = () => {
           <p className="error">{errors.email ? <span>{errors.email.message} </span> : null }</p>
           <div className='form-password'>
             <input
+                aria-label="Mot de passe"
                 type={passwordIsVisible ? 'text' : 'password'}
                 name='password'
                 id='password'

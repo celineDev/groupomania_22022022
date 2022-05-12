@@ -8,9 +8,10 @@ variables
 :root {
     --primary-color: #FFD7D7;
     --dark-primary-color: #ffbdbd;
-    --secondary-color: #FD0D00;
+    --secondary-color: #EB0C00;
     --dark-secondary-color: #d90b00;
     --font-color: #1A1A1A;
+    --light-font-color: #595959;
     --grey: #F2F2F2;
     --shadow: #d1d1d1;
     --darkShadow: #b9b9b9;

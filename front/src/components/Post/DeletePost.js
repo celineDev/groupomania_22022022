@@ -21,7 +21,7 @@ const DeletePost = (props) => {
                 destroyPost()
             }
         }}>
-            <img title='Supprimer' src={trash} width="25" alt="trash icon" />
+            <img title='Supprimer' tabIndex="0" src={trash} width="25" alt="trash icon" />
         </figure>
     );
 };

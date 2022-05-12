@@ -8,7 +8,7 @@ const App = () => {
   const [uid, setUid] = useState(null)
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(sessionStorage.getItem('user'));
+    const loggedInUser = JSON.parse(localStorage.getItem('user'));
     setUid(loggedInUser);
   }, []);
 

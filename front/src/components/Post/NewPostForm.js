@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import { apiRequest } from '../../utils/api';
 import landscape from './../../assets/icons/landscape.svg'
@@ -69,15 +68,14 @@ const NewPostForm = () => {
 
     return (
         <form className='post-container' >
-            <h2 className='h1'>Créer un post</h2>
-            <NavLink to="/profile">
-                <figure title='Profil utilisateur' className='new card-header'>
-                    <img className='nav-profile' src={userPicture ? userPicture : "./images/img/profile.png"} width='50px' alt="profil de l'utilisateur" />
-                    <h3 className='h2'>{firstName} {lastName}</h3>
-                </figure>
-            </NavLink>
+            <h1 className='h1'>Créer un post</h1>
+            <figure title='Profil utilisateur' className='new card-header'>
+                <img className='nav-profile' src={userPicture ? userPicture : "./images/img/profile.png"} width='50px' alt="profil de l'utilisateur" />
+                <h2 tabIndex="0" className='h2'>{firstName} {lastName}</h2>
+            </figure>
             <div className='post-form'>
                 <textarea
+                    aria-label="Ecrire un post"
                     type="text"
                     name="message"
                     id="message"
@@ -87,12 +85,13 @@ const NewPostForm = () => {
                     onChange={(e) => setMessage(e.target.value)}
                     value={message}
                 ></textarea>
-                {postPicture && <img src={postPicture} alt="preview" className="img-preview" />}
+                {postPicture && <img src={postPicture} alt="preview" tabIndex="0" className="img-preview" />}
             </div>
 
             <div className='footer-form'>
                 <div className='icon'>
                     <input
+                        aria-label="Ajouter une image"
                         type="file"
                         id='file-upload'
                         name='file'

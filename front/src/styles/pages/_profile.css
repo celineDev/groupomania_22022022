@@ -29,8 +29,8 @@
 }
 
 .validate-btn {background-color: var(--primary-color);}
-.validate-btn:hover {background-color: var(--dark-primary-color);}
-.cancel-btn:hover {background-color: var(--shadow);}
+.validate-btn:hover, .validate-btn:focus {background-color: var(--dark-primary-color);}
+.cancel-btn:hover, .cancel-btn:focus {background-color: var(--shadow);}
 
 .edit-button {
     cursor: pointer;
@@ -46,7 +46,8 @@
     justify-content: center;
 }
 
-#deleteAccount:hover {
+#deleteAccount:hover,
+#deleteAccount:focus {
     color: var(--dark-secondary-color);
     cursor: pointer;
 }
